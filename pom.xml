@@ -8,7 +8,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Online: Monitoring of server/service availability</name>
-    <description>A simple availability monitoring using a GMail mailbox as a message queue</description>
+    <description>A simple availability monitoring tool using a GMail mailbox as a message queue</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -146,7 +146,7 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>${version.wildfly.maven.plugin}</version>
             </plugin>
-            
+
             <!-- Using JAVA_HOME based on ~/.m2/toolchains.xml -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
