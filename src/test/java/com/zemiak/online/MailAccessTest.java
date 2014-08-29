@@ -1,12 +1,11 @@
 package com.zemiak.online;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.mail.Folder;
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
@@ -31,6 +30,13 @@ public class MailAccessTest {
         int messageCount = folder.getMessageCount();
 
         Assert.assertTrue(messageCount > 0);
+
+        for (int i = 0; i < 10; i++) {
+            Message message = folder.getMessage(i);
+            String[] receivedHeaders = message.getHeader("Received");
+            String received = receivedHeaders.length > 0 ? receivedHeaders[0] : "<unknown>";
+            System.out.println("Subject: " + message.getSubject() + ", sent on " + message.getSentDate() + ", arrived " + received);
+        }
     }
 
     private Properties readProperties(final ResourceBundle bundle) {
