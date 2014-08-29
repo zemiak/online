@@ -24,34 +24,34 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.zemiak.online.model.Member;
-import com.zemiak.online.service.MemberRegistration;
+import com.zemiak.online.model.ProtectedSystem;
+import com.zemiak.online.service.SystemRegistration;
 
 // The @Model stereotype is a convenience mechanism to make this a request-scoped bean that has an
 // EL name
 // Read more about the @Model stereotype in this FAQ:
 // http://sfwk.org/Documentation/WhatIsThePurposeOfTheModelAnnotation
 @Model
-public class MemberController {
+public class SystemController {
 
     @Inject
     private FacesContext facesContext;
 
     @Inject
-    private MemberRegistration memberRegistration;
+    private SystemRegistration registration;
 
     @Produces
     @Named
-    private Member newMember;
+    private ProtectedSystem newEntry;
 
     @PostConstruct
     public void initNewMember() {
-        newMember = new Member();
+        newEntry = new ProtectedSystem();
     }
 
     public void register() throws Exception {
         try {
-            memberRegistration.register(newMember);
+            registration.register(newEntry);
             FacesMessage m = new FacesMessage(FacesMessage.SEVERITY_INFO, "Registered!", "Registration successful");
             facesContext.addMessage(null, m);
             initNewMember();

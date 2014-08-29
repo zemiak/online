@@ -16,7 +16,7 @@
  */
 package com.zemiak.online.data;
 
-import com.zemiak.online.model.Member;
+import com.zemiak.online.model.ProtectedSystem;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
@@ -28,27 +28,27 @@ import java.util.List;
 
 
 @RequestScoped
-public class MemberListProducer {
+public class SystemListProducer {
 
     @Inject
-    private MemberRepository memberRepository;
+    private SystemRepository repository;
 
-    private List<Member> members;
+    private List<ProtectedSystem> entries;
 
     // @Named provides access the return value via the EL variable name "members" in the UI (e.g.
     // Facelets or JSP view)
     @Produces
     @Named
-    public List<Member> getMembers() {
-        return members;
+    public List<ProtectedSystem> getSystems() {
+        return entries;
     }
 
-    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final Member member) {
-        retrieveAllMembersOrderedByName();
+    public void onMemberListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final ProtectedSystem system) {
+        retrieveAllSystemsOrderedByName();
     }
 
     @PostConstruct
-    public void retrieveAllMembersOrderedByName() {
-        members = memberRepository.findAllOrderedByName();
+    public void retrieveAllSystemsOrderedByName() {
+        entries = repository.findAllOrderedByName();
     }
 }
