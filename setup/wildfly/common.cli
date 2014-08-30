@@ -1,0 +1,19 @@
+connect
+
+###
+# Remove Database Connection
+###
+if (outcome == success) of /subsystem=datasources/data-source=online_db/:read-resource
+    /subsystem=datasources/data-source=online_db/:disable
+    reload
+    /subsystem=datasources/data-source=online_db/:remove
+end-if
+
+###
+# Remove JNDI strings
+###
+#if (outcome == success) of /subsystem=naming/binding=java\:jboss\/com.zemiak.movies.ffmpeg:read-attribute(name=value)
+#    /subsystem=naming/binding=java\:jboss\/com.zemiak.movies.ffmpeg:remove
+#end-if
+
+reload

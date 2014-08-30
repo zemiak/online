@@ -3,13 +3,12 @@ package com.zemiak.online.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,27 +17,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Outage implements Serializable {
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+public class Credentials implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     private Long id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    private ProtectedSystem system;
+    private String name;
+    
+    @NotNull
+    private String password;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "start_date")
-    private Date start;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "end_date")
-    private Date end;
-
-    public Outage() {
-    }
+    private Date created;
 
     public Long getId() {
         return id;
@@ -48,34 +42,26 @@ public class Outage implements Serializable {
         this.id = id;
     }
 
-    public ProtectedSystem getSystem() {
-        return system;
+    public String getName() {
+        return name;
     }
 
-    public void setSystem(ProtectedSystem system) {
-        this.system = system;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getStart() {
-        return start;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
-    public Date getEnd() {
-        return end;
-    }
-
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 37 * hash + Objects.hashCode(this.id);
+        hash = 53 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
@@ -87,12 +73,12 @@ public class Outage implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Outage other = (Outage) obj;
+        final Credentials other = (Credentials) obj;
         return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        return "Outage{" + "id=" + id + ", system=" + system + ", start=" + start + ", end=" + end + '}';
+        return "Credentials{" + "id=" + id + ", name=" + name + ", created=" + created + '}';
     }
 }

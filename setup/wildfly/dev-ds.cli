@@ -1,0 +1,9 @@
+connect
+
+###
+# Setup DB connection
+###
+
+/subsystem=datasources/data-source=online_db/:add(jndi-name=java\:jboss\/datasources\/online_db,driver-name=postgresql-9.3-1101.jdbc41.jar,connection-url=jdbc\:postgresql\:\/\/localhost\:5432\/online,password=online\/0,user-name=online_user)
+/subsystem=datasources/data-source=online_db/:enable
+reload

@@ -11,15 +11,23 @@ import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class MailAccessTest {
     @Test
+    @Ignore
     public void loginToGmail() throws FileNotFoundException, IOException, NoSuchProviderException, MessagingException {
         Properties mailProperties = readProperties(ResourceBundle.getBundle("mail"));
-
         String account = mailProperties.getProperty("account");
         String password = mailProperties.getProperty("password");
+        
+        mailProperties.remove("account");
+        mailProperties.remove("password");
+        
+        System.err.println("Props: " + mailProperties);
+
+        
 
         Session session = Session.getDefaultInstance(mailProperties);
         Store store = session.getStore("imaps");

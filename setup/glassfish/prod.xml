@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE resources PUBLIC "-//GlassFish.org//DTD GlassFish Application Server 3.1 Resource Definitions//EN" "http://glassfish.org/dtds/glassfish-resources_1_5.dtd">
+<resources>
+    <jdbc-connection-pool datasource-classname="org.postgresql.ds.PGSimpleDataSource" 
+                          name="online_pool" res-type="javax.sql.DataSource">
+      <property name="User" value="online_user"></property>
+      <property name="DatabaseName" value="online"></property>
+      <property name="ServerName" value="localhost"></property>
+      <property name="PortNumber" value="5432"></property>
+      <property name="Password" value="online/0"></property>
+    </jdbc-connection-pool>
+    
+    <jdbc-resource pool-name="online_pool" jndi-name="jdbc/online_db"></jdbc-resource>
+    
+    <auth-realm classname="com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm" name="online_realm">
+        <property name="jaas-context" value="jdbcRealm"></property>
+        <property name="encoding" value="base64"></property>
+        <property name="password-column" value="password"></property>
+        <property name="datasource-jndi" value="online_db"></property>
+        <property name="group-table" value="roles"></property>
+        <property name="user-table" value="credentials"></property>
+        <property name="group-name-column" value="role_name"></property>
+        <property name="digestrealm-password-enc-algorithm" value="SHA-256"></property>
+        <property name="group-table-user-name-column" value="user_name"></property>
+        <property name="user-name-column" value="name"></property>
+    </auth-realm>
+</resources>
