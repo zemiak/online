@@ -1,59 +1,55 @@
 package com.zemiak.online;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Properties;
 import java.util.ResourceBundle;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.*;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class MailAccessTest {
+    private static final Logger LOG = Logger.getLogger(MailAccessTest.class.getName());
+
     @Test
     @Ignore
-    public void loginToGmail() throws FileNotFoundException, IOException, NoSuchProviderException, MessagingException {
-        Properties mailProperties = readProperties(ResourceBundle.getBundle("mail"));
-        String account = mailProperties.getProperty("account");
-        String password = mailProperties.getProperty("password");
-        
-        mailProperties.remove("account");
-        mailProperties.remove("password");
-        
-        System.err.println("Props: " + mailProperties);
+    public void loginToGmail() throws MessagingException {
+        ResourceBundle prop = ResourceBundle.getBundle("mail");
+        String account = prop.getString("account");
+        String password = prop.getString("password");
+        String storeName = prop.getString("store");
+        String host = prop.getString("host");
+        String folderName = prop.getString("folder");
 
-        
+        Session session = Session.getInstance(new Properties());
+        Store store;
+        try {
+            store = session.getStore(storeName);
+        } catch (NoSuchProviderException ex) {
+            LOG.log(Level.SEVERE, "Cannot get store " + storeName, ex);
+            return;
+        }
 
-        Session session = Session.getDefaultInstance(mailProperties);
-        Store store = session.getStore("imaps");
-        store.connect(account, password);
 
-        Folder folder = store.getFolder("alive");
-        folder.open(Folder.READ_ONLY);
+        try {
+            store.connect(host, account, password);
+        } catch (MessagingException ex) {
+            LOG.log(Level.SEVERE, "Cannot connect to GMail", ex);
+            return;
+        }
+
+        Folder folder;
+        try {
+            folder = store.getFolder(folderName);
+            folder.open(Folder.READ_ONLY);
+        } catch (MessagingException ex) {
+            LOG.log(Level.SEVERE, "Cannot get folder " + folderName, ex);
+            return;
+        }
+
         int messageCount = folder.getMessageCount();
-
+        System.err.println("Message count: " + messageCount);
         Assert.assertTrue(messageCount > 0);
-
-        for (int i = 0; i < 10; i++) {
-            Message message = folder.getMessage(i);
-            String[] receivedHeaders = message.getHeader("Received");
-            String received = receivedHeaders.length > 0 ? receivedHeaders[0] : "<unknown>";
-            System.out.println("Subject: " + message.getSubject() + ", sent on " + message.getSentDate() + ", arrived " + received);
-        }
-    }
-
-    private Properties readProperties(final ResourceBundle bundle) {
-        Properties p = new Properties();
-
-        for (String key: bundle.keySet()) {
-            p.put(key, bundle.getString(key));
-        }
-
-        return p;
     }
 }
