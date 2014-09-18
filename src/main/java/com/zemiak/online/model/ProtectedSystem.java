@@ -4,14 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -21,10 +14,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@NamedQueries({
+    @NamedQuery(name = "ProtectedSystem.findAll", query = "select e from ProtectedSystem e order by e.name"),
+    @NamedQuery(name = "ProtectedSystem.findByName", query = "select e from ProtectedSystem e where e.name = :name")
+})
 public class ProtectedSystem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @NotNull
@@ -36,6 +34,15 @@ public class ProtectedSystem implements Serializable {
 
     @OneToMany(mappedBy = "system", fetch = FetchType.LAZY)
     private Set<Outage> outages;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastSeen;
+
+    public ProtectedSystem() {
+        lastSeen = new Date();
+        created = new Date();
+    }
 
     public Long getId() {
         return id;
@@ -69,6 +76,14 @@ public class ProtectedSystem implements Serializable {
         this.outages = outages;
     }
 
+    public Date getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(Date lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -86,10 +101,5 @@ public class ProtectedSystem implements Serializable {
         }
         final ProtectedSystem other = (ProtectedSystem) obj;
         return Objects.equals(this.id, other.id);
-    }
-
-    @Override
-    public String toString() {
-        return "ProtectedSystem{" + "id=" + id + ", name=" + name + ", created=" + created + '}';
     }
 }

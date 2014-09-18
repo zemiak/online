@@ -3,13 +3,7 @@ package com.zemiak.online.model;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -18,10 +12,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
+@NamedQueries({
+    @NamedQuery(name = "Outage.findAliveBySystem", query = "select e from Outage e where e.system = :system and e.end is null")
+})
 public class Outage implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue
     private Long id;
 
     @NotNull
@@ -38,6 +36,7 @@ public class Outage implements Serializable {
     private Date end;
 
     public Outage() {
+        start = new Date();
     }
 
     public Long getId() {

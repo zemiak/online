@@ -1,34 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:p="http://primefaces.org/ui"
-    >
-    <ui:define name="content">
-        <h1>Online: System Availability Monitoring!</h1>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
-        <h2>Systems</h2>
-        <h:panelGroup rendered="#{empty systems}">
-            <em>No registered systems.</em>
-            <p:clock />
-        </h:panelGroup>
+    <h:head>
+    </h:head>
+    <h:body>
 
-        <p:dataTable var="_system" value="#{systems}"
-            rendered="#{not empty members}"
-            styleClass="simpletablestyle">
-            <h:column>
-                <f:facet name="header">Id</f:facet>
-                #{_system.id}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Name</f:facet>
-                #{_system.name}
-            </h:column>
-            <h:column>
-                <f:facet name="header">Created</f:facet>
-                #{_system.created}
-            </h:column>
-        </p:dataTable>
-    </ui:define>
-</ui:composition>
+
+        <h:form>
+            <h1>Online: System Availability Monitoring!</h1>
+
+            <h2>Systems</h2>
+            <h:panelGroup rendered="#{empty systems}">
+                <em>No registered systems.</em>
+            </h:panelGroup>
+            
+            <h:panelGroup rendered="#{!empty systems}">
+                <p:dataTable var="_system" value="#{systems}"
+                             rendered="#{not empty members}"
+                             styleClass="simpletablestyle">
+                    <h:column>
+                        <f:facet name="header">Id</f:facet>
+                            #{_system.id}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                            #{_system.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Created</f:facet>
+                            #{_system.created}
+                    </h:column>
+                </p:dataTable>
+            </h:panelGroup>
+
+            <div>
+                <p:commandButton value="Check Now!" action="#{systemView.checkMail(event)}" />
+            </div>
+        </h:form>
+    </h:body>
+</html>

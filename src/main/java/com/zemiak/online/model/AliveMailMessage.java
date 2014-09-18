@@ -3,6 +3,7 @@ package com.zemiak.online.model;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.mail.Flags;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 
@@ -10,6 +11,7 @@ public class AliveMailMessage {
     private String system;
     private Date sent;
     private Date received;
+    private Boolean unread;
 
     public AliveMailMessage() {
     }
@@ -18,6 +20,7 @@ public class AliveMailMessage {
         parseSystem(msg);
         parseSentDate(msg);
         parseReceivedDate(msg);
+        parseUnread(msg);
     }
 
     public String getSystem() {
@@ -76,5 +79,28 @@ public class AliveMailMessage {
         } else {
             throw new IllegalStateException("Cannot parse alive status");
         }
+    }
+
+    private void parseUnread(Message msg) {
+        Flags flags;
+        try {
+            flags = msg.getFlags();
+        } catch (MessagingException ex) {
+            throw new IllegalStateException("Cannot get message flags");
+        }
+
+        unread = !flags.contains(Flags.Flag.SEEN);
+    }
+
+    public Boolean isUnread() {
+        return unread;
+    }
+
+    public Boolean isRead() {
+        return !unread;
+    }
+
+    public void setUnread(Boolean unread) {
+        this.unread = unread;
     }
 }
