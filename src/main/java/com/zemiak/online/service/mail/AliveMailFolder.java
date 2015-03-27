@@ -2,46 +2,54 @@ package com.zemiak.online.service.mail;
 
 import com.zemiak.online.model.AliveMailMessage;
 import java.util.Properties;
-import java.util.ResourceBundle;
+import javax.inject.Inject;
 import javax.mail.*;
 
 public class AliveMailFolder {
-    private Folder folder;
+    private Folder mailFolder;
+    
+    @Inject
+    private String account;
+    
+    @Inject
+    private String password;
+    
+    @Inject
+    private String store;
+    
+    @Inject
+    private String host;
+    
+    @Inject
+    private String folder;
 
     public AliveMailFolder() {
-        ResourceBundle prop = ResourceBundle.getBundle("mail");
-        String account = prop.getString("account");
-        String password = prop.getString("password");
-        String storeName = prop.getString("store");
-        String host = prop.getString("host");
-        String folderName = prop.getString("folder");
-
         Session session = Session.getInstance(new Properties());
-        Store store;
+        Store mailStore;
         try {
-            store = session.getStore(storeName);
+            mailStore = session.getStore(store);
         } catch (NoSuchProviderException ex) {
-            throw new RuntimeException("Cannot get store " + storeName, ex);
+            throw new RuntimeException("Cannot get store " + store, ex);
         }
 
 
         try {
-            store.connect(host, account, password);
+            mailStore.connect(host, account, password);
         } catch (MessagingException ex) {
             throw new RuntimeException("Cannot connect to GMail", ex);
         }
 
         try {
-            folder = store.getFolder(folderName);
-            folder.open(Folder.READ_ONLY);
+            mailFolder = mailStore.getFolder(folder);
+            mailFolder.open(Folder.READ_ONLY);
         } catch (MessagingException ex) {
-            throw new RuntimeException("Cannot get folder " + folderName, ex);
+            throw new RuntimeException("Cannot get folder " + folder, ex);
         }
     }
 
     public int size() {
         try {
-            return folder.getMessageCount();
+            return mailFolder.getMessageCount();
         } catch (MessagingException ex) {
             throw new RuntimeException("Cannot get folder size", ex);
         }
@@ -49,7 +57,7 @@ public class AliveMailFolder {
 
     public AliveMailMessage get(int i) {
         try {
-            return new AliveMailMessage(folder.getMessage(i));
+            return new AliveMailMessage(mailFolder.getMessage(i));
         } catch (MessagingException ex) {
             throw new RuntimeException("Cannot get message #" + i, ex);
         }

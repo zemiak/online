@@ -9,5 +9,6 @@ target
 .DS_Store
 
 nb-configuration.xml
-src/main/resources/mail.properties
-src/test/resources/mail.properties
+src/dev/resources/account.properties
+src/prod/resources/account.properties
+src/test/resources/account.properties

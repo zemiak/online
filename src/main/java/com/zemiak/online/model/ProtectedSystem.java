@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @XmlRootElement
@@ -33,15 +34,19 @@ public class ProtectedSystem implements Serializable {
     private Date created;
 
     @OneToMany(mappedBy = "system", fetch = FetchType.LAZY)
+    @XmlTransient
+    @Transient
     private Set<Outage> outages;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastSeen;
+    
+    @NotNull
+    private Boolean disabled;
 
     public ProtectedSystem() {
-        lastSeen = new Date();
-        created = new Date();
+        
     }
 
     public Long getId() {
@@ -101,5 +106,22 @@ public class ProtectedSystem implements Serializable {
         }
         final ProtectedSystem other = (ProtectedSystem) obj;
         return Objects.equals(this.id, other.id);
+    }
+
+    public Boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        this.disabled = disabled;
+    }
+    
+    public static ProtectedSystem create() {
+        ProtectedSystem system = new ProtectedSystem();
+        system.setLastSeen(new Date());
+        system.setCreated(system.getLastSeen());
+        system.setDisabled(false);
+        
+        return system;
     }
 }

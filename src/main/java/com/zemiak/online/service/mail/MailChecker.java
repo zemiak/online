@@ -1,10 +1,15 @@
 package com.zemiak.online.service.mail;
 
+import com.zemiak.online.service.mail.events.NewProtectedSystemEvent;
+import com.zemiak.online.service.mail.events.OutageStopEvent;
+import com.zemiak.online.service.mail.events.OutageStartEvent;
 import com.zemiak.online.model.AliveMailMessage;
 import com.zemiak.online.model.Outage;
 import com.zemiak.online.model.ProtectedSystem;
 import java.util.*;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -12,6 +17,7 @@ import javax.persistence.PersistenceContext;
 
 @Stateless
 public class MailChecker {
+    private static final Logger LOG = Logger.getLogger(MailChecker.class.getName());
     private static final int MAX_COUNT = 60;
 
     @PersistenceContext
@@ -19,12 +25,21 @@ public class MailChecker {
 
     @Inject
     private AliveMailFolder folder;
+    
+    @Inject
+    private Event<NewProtectedSystemEvent> systemEvents;
+    
+    @Inject
+    private Event<OutageStartEvent> startEvents;
+    
+    @Inject
+    private Event<OutageStopEvent> stopEvents;
 
     public void check() {
         int count = folder.size() > MAX_COUNT ? MAX_COUNT : folder.size();
 
         for (int i = 1; i <= count; i++) {
-            System.out.println(String.format("Checking message %d of %d", i, count));
+            LOG.fine(String.format("Checking message %d of %d", i, count));
             check(folder.get(i));
         }
 
@@ -48,9 +63,11 @@ public class MailChecker {
     }
 
     private ProtectedSystem createProtectedSystem(String name) {
-        ProtectedSystem system = new ProtectedSystem();
+        ProtectedSystem system = ProtectedSystem.create();
         system.setName(name);
         em.persist(system);
+        
+        systemEvents.fire(new NewProtectedSystemEvent(system));
 
         return system;
     }
@@ -68,7 +85,7 @@ public class MailChecker {
     }
 
     private void startOutage(ProtectedSystem system) {
-        List<Outage> outages = em.createNamedQuery("Outage.findAliveBySystem").setParameter("system", system).getResultList();
+        List<Outage> outages = em.createNamedQuery("Outage.findAliveBySystem", Outage.class).setParameter("system", system).getResultList();
         if (outages.size() > 1) {
             throw new IllegalStateException("More than 1 outage for " + system.getName());
         }
@@ -88,6 +105,7 @@ public class MailChecker {
         }
 
         outage.setEnd(new Date());
+        stopEvents.fire(new OutageStopEvent(outage, outage.getSystem()));
     }
 
     private Outage createOutage(ProtectedSystem system) {
@@ -101,6 +119,8 @@ public class MailChecker {
             system.setOutages(outages);
         }
         outages.add(outage);
+        
+        startEvents.fire(new OutageStartEvent(outage, outage.getSystem()));
 
         return outage;
     }

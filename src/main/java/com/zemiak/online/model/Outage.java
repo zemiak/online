@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @XmlRootElement
@@ -24,6 +25,8 @@ public class Outage implements Serializable {
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
+    @XmlTransient
+    @Transient
     private ProtectedSystem system;
 
     @NotNull

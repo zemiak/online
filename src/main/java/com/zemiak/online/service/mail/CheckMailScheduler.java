@@ -5,7 +5,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 
 @Stateless
-public class CheckMailsScheduled {
+public class CheckMailScheduler {
     @Inject
     private MailChecker checker;
 
