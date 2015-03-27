@@ -1,0 +1,14 @@
+# FQDN host name
+myhostname = movies.lenovo-server.local
+
+# From address
+myorigin = lenovo-server.local
+
+# Where to forward the email to
+relayhost = 192.168.2.10
+
+# Do not accept mail from outside
+inet_interfaces = loopback-only
+
+# Do not store mail localy
+mydestination =

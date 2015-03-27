@@ -1,49 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <h:head>
-    </h:head>
-    <h:body>
-
-
-        <h:form>
-            <p:growl id="growl" life="5000" />
-            
-            <h1>Online: System Availability Monitoring!</h1>
-
-            <h2>Systems</h2>
-            <h:panelGroup rendered="#{empty systems}">
-                <em>No registered systems.</em>
-            </h:panelGroup>
-            
-            <h:panelGroup rendered="#{!empty systems}">
-                <p:dataTable var="_system" value="#{systems}"
-                             rendered="#{not empty members}"
-                             styleClass="simpletablestyle">
-                    <h:column>
-                        <f:facet name="header">Id</f:facet>
-                            #{_system.id}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Name</f:facet>
-                            #{_system.name}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">Created</f:facet>
-                            #{_system.created}
-                    </h:column>
-                </p:dataTable>
-            </h:panelGroup>
-
-            <div>
-                <p:commandButton value="Check Now!" action="#{systemView.checkMail(event)}" />
-            </div>
-        </h:form>
-    </h:body>
+    <ui:composition template="/templates/grid.xhtml">
+        <ui:define name="title">Online: Systems</ui:define>
+            <h1>Here Be Dragons</h1>
+        </ui:define>
+    </ui:composition>
 </html>

@@ -1,0 +1,5 @@
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=zemiak@gmail.com
+
+45 2 * * * root bash /usr/local/bin/postgresql-backup.sh
