@@ -30,7 +30,7 @@ do
 done
 
 # erase backups from last month
-lastmonth=`date -d last-month +%Y%m`
+lastmonth=`date --date=-40days +%Y%m`
 rm -f $BACKUPDIR/$lastmonth* >/dev/null 2>/dev/null
 
 if [ "$ERR" == "0" ] ; then
