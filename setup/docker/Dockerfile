@@ -42,9 +42,8 @@ ENV LANG en_US.utf8
 
 RUN apt-get update && apt-get install -y postgresql
 
-ADD movies.plain.bz2 /tmp/
+ADD online-db.sql /tmp/
 WORKDIR /tmp
-RUN bunzip2 movies.plain.bz2
 
 USER postgres
 
@@ -53,13 +52,13 @@ USER postgres
 # Note: here we use ``&&\`` to run commands one after the other - the ``\``
 #       allows the RUN command to span multiple lines.
 RUN    /etc/init.d/postgresql start &&\
-    psql --command "CREATE USER movies_user WITH SUPERUSER PASSWORD 'movies/0';" &&\
-    createdb --owner=movies_user movies &&\
-    cat /tmp/movies.plain | psql movies >/dev/null &&\
+    psql --command "CREATE USER online_user WITH SUPERUSER PASSWORD 'online/0';" &&\
+    createdb --owner=online_user online_db &&\
+    cat /tmp/online_db.sql | psql online_db >/dev/null &&\
     /etc/init.d/postgresql stop
 
 USER root
-RUN rm /tmp/movies.plain
+RUN rm /tmp/online_db.sql
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
@@ -82,10 +81,10 @@ ADD postgresql-backup.sh /usr/local/bin/
 RUN mkdir -p /mnt/backup
 
 # -------------------------------------------------
-# Wildfly Application Server and Movies Application
+# Wildfly Application Server and Online Application
 # -------------------------------------------------
 
-ENV MOVIES_VERSION 1_0_4
+ENV ONLINE_VERSION 1_0_0
 
 USER root
 
@@ -95,11 +94,6 @@ RUN cd /opt && tar -xzf /opt/jdk-8u25-linux-x64.tar.gz && rm -f /opt/jdk-8u25-li
 RUN ln -s /opt/jdk1.8.0_25 /opt/jdk
 ENV JAVA_HOME /opt/jdk
 ENV PATH $PATH:/opt/jdk/bin
-
-# Install packages needed by Movies batch jobs and build process
-RUN apt-get -yq install ffmpeg mp4v2-utils git ffmpegthumbnailer
-RUN mkdir -p /mnt/media/Movies
-RUN mkdir -p /mnt/media/Pictures/Movies
 
 # Clean APT cache
 RUN apt-get -q clean
@@ -128,15 +122,15 @@ RUN chown -R wildfly:wildfly /opt/wildfly*
 # Run everything below as the wildfly user
 USER wildfly
 
-############################################################ Deploying Movies: start
+############################################################ Deploying Online: start
 # Copy the WAR
 RUN mkdir -p /opt/wildfly/projects/
 WORKDIR /opt/wildfly/projects/
-RUN git clone https://github.com/zemiak/movies.git
-RUN cd movies && git checkout tags/$MOVIES_VERSION
-ADD https://github.com/zemiak/movies/releases/download/$MOVIES_VERSION/movies.war /tmp/
+RUN git clone https://github.com/zemiak/online.git
+RUN cd online && git checkout tags/$ONLINE_VERSION
+ADD https://github.com/zemiak/online/releases/download/$ONLINE_VERSION/online.war /tmp/
 
-# Setup the Wildfly to support Movies
+# Setup the Wildfly to support Online
 WORKDIR /opt/wildfly
 RUN /opt/wildfly/bin/add-user.sh admin admin --silent
 
@@ -145,15 +139,15 @@ ADD run-wildfly-for-setup.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/run-wildfly-for-setup.sh
 RUN /usr/local/bin/run-wildfly-for-setup.sh \
     && sleep 15s \
-    && cd /opt/wildfly/projects/movies/setup/wildfly \
+    && cd /opt/wildfly/projects/online/setup/wildfly \
     && bash setup.sh prod \
-    && /opt/wildfly/bin/jboss-cli.sh --connect --command="deploy /tmp/movies.war" \
+    && /opt/wildfly/bin/jboss-cli.sh --connect --command="deploy /tmp/online.war" \
     && killall java
 RUN chmod -R +s *
 RUN chmod -R +t *
 RUN chown -R wildfly.wildfly *
 RUN rm -rf /opt/wildfly/standalone/configuration/standalone_xml_history/current
-############################################################ Deploying Movies: end
+############################################################ Deploying Online: end
 
 # Expose the ports we're interested in
 EXPOSE 8080 9990

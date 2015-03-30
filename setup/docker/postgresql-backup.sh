@@ -13,7 +13,7 @@ thedate=`date +%Y%m%d%H`
 themonth=`date +%Y%m`
 
 # put the names of the databases you want to create an individual backup below
-dbs=(movies)
+dbs=(online_db)
 
 # iterate thru dbs in dbs array and backup each one
 for db in ${dbs[@]}
