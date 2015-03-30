@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MAC=/Users/vasko/bin/wildfly8/
-LINUX=/home/wildfly/wildfly8/
+LINUX=/home/vasko/bin/wildfly/
 WINDOWS=/e/Java/wildfly8/
 
 if [ -d "$JBOSS_HOME" ]
@@ -35,8 +35,17 @@ then
     exit 2
 fi
 
+echo ... driver
 $CLI --file=driver-install.cli
+
+echo ... deleting resources
 $CLI --file=common.cli
+
+echo ... mail
 $CLI --file=mail-session.cli
+
+echo ... data source
 $CLI --file="$1-ds.cli"
+
+echo ... authentication
 $CLI --file=authentication-realm.cli

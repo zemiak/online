@@ -1,17 +1,22 @@
 connect
 
 ###
-# Remove Database and Mail Connection
+# Remove Database, Mail Connection and Authentication
 ###
 
-if (outcome == success) of /subsystem=datasources/data-source=ZemiakMovies/:read-resource
-    /subsystem=datasources/data-source=ZemiakMovies/:disable
+if (outcome == success) of /subsystem=datasources/data-source=online_db/:read-resource
+    /subsystem=datasources/data-source=online_db/:disable
     reload
-    /subsystem=datasources/data-source=ZemiakMovies/:remove
+    /subsystem=datasources/data-source=online_db/:remove
 end-if
 
-if (outcome == success) of /subsystem=mail/mail-session=MoviesMail/:read-attribute(name=jndi-name)
-    /subsystem=mail/mail-session=MoviesMail/:remove
+if (outcome == success) of /subsystem=mail/mail-session=OnlineMail/:read-attribute(name=jndi-name)
+    /subsystem=mail/mail-session=OnlineMail/:remove
+    reload
+end-if
+
+if (outcome == success) of /subsystem=security/security-domain=app/:read-attribute(name=cache-type)
+    /subsystem=security/security-domain=app/:remove
     reload
 end-if
 
