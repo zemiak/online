@@ -29,9 +29,9 @@ do
   fi
 done
 
-# erase backups from last month
-lastmonth=`date --date=-40days +%Y%m`
-rm -f $BACKUPDIR/$lastmonth* >/dev/null 2>/dev/null
+# erase backups older than 6 months
+cd $BACKUPDIR
+find . -mtime +60 -exec rm {} \;
 
 if [ "$ERR" == "0" ] ; then
     echo Done >/dev/null
