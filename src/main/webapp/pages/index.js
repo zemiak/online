@@ -1,5 +1,15 @@
+var index_dataTable;
+
+function initTimer() {
+    setInterval(function(){
+        index_dataTable.fnReloadAjax();
+        
+        initTimer();
+    }, 60000);
+}
+
 $(document).ready(function() {
-    $('#grid').dataTable( {
+    index_dataTable = $('#grid').dataTable( {
         "ajax": "/movies/rest/genres",
         "pagingType": "full",
         dom: 'T<"clear">lfrtip',
@@ -24,4 +34,6 @@ $(document).ready(function() {
     $('#grid tbody').on('dblclick', 'tr', function() {
 	DataTablesExt.editDoubleClick(this);
     });
+    
+    initTimer();
 });
