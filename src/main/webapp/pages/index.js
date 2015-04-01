@@ -3,8 +3,6 @@ var index_dataTable;
 function initTimer() {
     setInterval(function(){
         index_dataTable.ajax.reload();
-        
-        initTimer();
     }, 60000);
 }
 

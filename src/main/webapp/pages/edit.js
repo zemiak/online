@@ -3,8 +3,6 @@ var edit_dataTable;
 function initTimer() {
     setInterval(function(){
         edit_dataTable.ajax.reload();
-        
-        initTimer();
     }, 60000);
 }
 
