@@ -14,7 +14,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @NamedQueries({
-    @NamedQuery(name = "Outage.findAliveBySystem", query = "select e from Outage e where e.system = :system and e.end is null")
+    @NamedQuery(name = "Outage.findAliveBySystem", query = "select e from Outage e where e.system = :system and e.end is null"),
+    @NamedQuery(name = "Outage.findAllBySystem", query = "select e from Outage e where e.system.id = :id")
 })
 public class Outage implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -26,7 +27,6 @@ public class Outage implements Serializable {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @XmlTransient
-    @Transient
     private ProtectedSystem system;
 
     @NotNull

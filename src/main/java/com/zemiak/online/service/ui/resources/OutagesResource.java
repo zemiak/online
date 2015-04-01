@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -21,7 +22,8 @@ public class OutagesResource {
     private OutageService service;
 
     @GET
-    public DataTablesAjaxData<OutageDTO> all() {
-        return new DataTablesAjaxData<>(service.all().stream().map(e -> new OutageDTO(e)).collect(Collectors.toList()));
+    @Path("{id}")
+    public DataTablesAjaxData<OutageDTO> all(@PathParam("id") Integer id) {
+        return new DataTablesAjaxData<>(service.findByProtectedSystem(id).stream().map(e -> new OutageDTO(e)).collect(Collectors.toList()));
     }
 }
