@@ -2,7 +2,7 @@ var edit_dataTable;
 
 function initTimer() {
     setInterval(function(){
-        edit_dataTable.fnReloadAjax();
+        edit_dataTable.ajax.reload();
         
         initTimer();
     }, 60000);
