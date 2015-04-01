@@ -12,90 +12,47 @@
             <f:viewAction action="#{genreEditForm.check}" />
         </f:metadata>
         
-        <ui:define name="title">
-            <h:outputText value="#{genreEditForm.actionTitle} Genre"></h:outputText>
-        </ui:define>
-        
+        <ui:define name="title">Online: Systems</ui:define>
+        <ui:define name="header">Systems</ui:define>
 
         <ui:define name="body">
-            <div class="panel small-panel">
-                <div class="row">
-                    <div class="small-12 columns">
-                        <h3>#{genreEditForm.actionTitle} Genre</h3>
-                    </div>
-                </div>
+            <h3>Genres</h3>
+            
+            <div id="select-one" data-alert="" class="alert-box alert" style="display: none;">
+                Please, select exactly one row.
+                <a href="#" class="close">&times;</a>
             </div>
             
-            <div class="row">&nbsp;</div>
-
-            <form method="post" jsf:id="genreEditForm" jsf:prependId="false" enctype="multipart/form-data" jsf:enctype="multipart/form-data">
+            <form method="post" jsf:id="protectedSystem" jsf:prependId="false" enctype="multipart/form-data" jsf:enctype="multipart/form-data">
                 <div class="row">
-                    <div class="small-8 columns">
+                    <div class="small-6 columns">
                         <label>Name:
-                            <input type="text" id="name" name="name" jsf:id="name" 
-                                   jsf:value="#{genreEditForm.bean.name}" label="Name"
-                                   placeholder="Enter Genre Name" jsf:required="true" />
+                            <input type="number" id="systemCount" name="systemCount" jsf:id="systemCount" 
+                                   jsf:value="#{protectedSystemForm.systemCount}" label="Total Systems"
+                                   readonly="true" jsf:readOnly="true" />
                         </label>
                         <h:message for="name" class="error" />
                     </div>
 
-                    <div class="small-4 columns">
+                    <div class="small-6 columns">
                         <label>Display Order:
-                            <input type="number" id="displayOrder" name="displayOrder" 
-                                   jsf:id="displayOrder" label="Display Order"
-                                   jsf:value="#{genreEditForm.bean.displayOrder}" 
-                                   placeholder="Enter Display Order" />
+                            <input type="number" id="failures" name="failures" 
+                                   jsf:id="failures" label="Current Failures"
+                                   jsf:value="#{protectedSystemForm.failures}" 
+                                   readonly="true" jsf:readOnly="true" />
                         </label>
                         <h:message for="number" class="error" />
                     </div>
                 </div>
-                
-                <div class="row">
-                    <div class="small-12 columns">
-                        <label>Picture Filename:
-                            <input type="text" id="pictureFileName" name="pictureFileName" 
-                                   jsf:id="pictureFileName" label="Picture Filename"
-                                   jsf:value="#{genreEditForm.bean.pictureFileName}" 
-                                   placeholder="Enter Picture Filename" jsf:readonly="true" readonly="true" />
-                        </label>
-                        <h:message for="pictureFileName" class="error" />
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="small-10 columns">
-                        <label>Picture Upload:
-                            <h:inputFile id="file" value="#{genreEditForm.file}" validator="#{genreEditForm.validateFile}" />
-                        </label>
-                        <h:message for="file" class="error" />
-                    </div>
-                    
-                    <div class="small-2 columns">
-                        <h:commandButton value="Upload" action="#{genreEditForm.upload}" styleClass="small button" />
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="small-6 columns">
-                        <img alt="#{genreEditForm.bean.name} Thumbnail"
-                                src="/movies/images/genre/#{genreEditForm.bean.id}" />
-                    </div>
-                </div>
-                
-                <div class="row">&nbsp;</div>
-                
-                <div class="row">
-                    <div class="small-12 columns">
-                        <ul class="button-group">
-                            <li><a href="index.xhtml" class="small button secondary">Close</a></li>
-                            <li><input type="submit" class="small button" jsf:value="Save &amp; Close" jsf:action="#{genreEditForm.save()}" /></li>
-                            <li><a class="small button alert" href="javascript:$('#removeButton').click();" data-confirm="" type="button">Remove</a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <button jsf:id="removeButton" id="removeButton" jsf:action="#{genreEditForm.remove()}" style="display:none;" />
             </form>
+
+            <table id="grid" class="display" cellspacing="0" width="100%">
+                <thead> <tr>
+                    <th>ID</th> <th>Name</th> <th>Outage</th> <th>Last Seen</th> <th>Created</th>
+                </tr> </thead>
+            </table>
+
+            <script type="text/javascript" src="edit.js"></script>
         </ui:define>
     </ui:composition>
 </html>

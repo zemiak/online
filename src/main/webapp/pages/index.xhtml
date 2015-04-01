@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:composition template="/templates/page.xhtml">
         <ui:define name="title">Online: Systems</ui:define>
@@ -16,16 +16,38 @@
                 Please, select exactly one row.
                 <a href="#" class="close">&times;</a>
             </div>
+            
+            <form method="post" jsf:id="protectedSystem" jsf:prependId="false" enctype="multipart/form-data" jsf:enctype="multipart/form-data">
+                <div class="row">
+                    <div class="small-6 columns">
+                        <label>Name:
+                            <input type="number" id="systemCount" name="systemCount" jsf:id="systemCount" 
+                                   jsf:value="#{protectedSystemForm.systemCount}" label="Total Systems"
+                                   readonly="true" jsf:readOnly="true" />
+                        </label>
+                        <h:message for="name" class="error" />
+                    </div>
+
+                    <div class="small-6 columns">
+                        <label>Display Order:
+                            <input type="number" id="failures" name="failures" 
+                                   jsf:id="failures" label="Current Failures"
+                                   jsf:value="#{protectedSystemForm.failures}" 
+                                   readonly="true" jsf:readOnly="true" />
+                        </label>
+                        <h:message for="number" class="error" />
+                    </div>
+                </div>
+            </form>
 
             <table id="grid" class="display" cellspacing="0" width="100%">
                 <thead> <tr>
-                    <th>Id</th> <th>Name</th> <th>Order</th> <th>Created</th>
+                    <th>ID</th> <th>Name</th> <th>Outage</th> <th>Last Seen</th> <th>Created</th>
                 </tr> </thead>
             </table>
 
             <ul class="button-group" style="padding-left: 1em;">
                 <li><a href="javascript:DataTablesExt.editClick();" class="small button">Edit</a></li>
-                <li><a href="edit.xhtml?id=-1" class="small button">Create</a></li>
             </ul>
 
             <script type="text/javascript" src="index.js"></script>
