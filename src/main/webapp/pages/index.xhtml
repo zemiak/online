@@ -7,11 +7,9 @@
 
     <ui:composition template="/templates/page.xhtml">
         <ui:define name="title">Online: Systems</ui:define>
-        <ui:define name="header">Systems</ui:define>
+        <ui:define name="header">Overview</ui:define>
 
         <ui:define name="body">
-            <h3>Genres</h3>
-            
             <div id="select-one" data-alert="" class="alert-box alert" style="display: none;">
                 Please, select exactly one row.
                 <a href="#" class="close">&times;</a>
@@ -20,7 +18,7 @@
             <form method="post" jsf:id="protectedSystem" jsf:prependId="false" enctype="multipart/form-data" jsf:enctype="multipart/form-data">
                 <div class="row">
                     <div class="small-6 columns">
-                        <label>Name:
+                        <label>System Count:
                             <input type="number" id="systemCount" name="systemCount" jsf:id="systemCount" 
                                    jsf:value="#{protectedSystemForm.systemCount}" label="Total Systems"
                                    readonly="true" jsf:readOnly="true" />
@@ -29,7 +27,7 @@
                     </div>
 
                     <div class="small-6 columns">
-                        <label>Display Order:
+                        <label>Current Failures:
                             <input type="number" id="failures" name="failures" 
                                    jsf:id="failures" label="Current Failures"
                                    jsf:value="#{protectedSystemForm.failures}" 

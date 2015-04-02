@@ -8,43 +8,77 @@
 
     <ui:composition template="/templates/page.xhtml">
         <f:metadata>
-            <f:viewParam name="id" value="#{genreEditForm.id}" />
-            <f:viewAction action="#{genreEditForm.check}" />
+            <f:viewParam name="id" value="#{protectedSystemViewForm.id}" />
+            <f:viewAction action="#{protectedSystemViewForm.check}" />
         </f:metadata>
 
-        <ui:define name="title">Online: Systems</ui:define>
-        <ui:define name="header">Systems</ui:define>
+        <ui:define name="title">Online: #{protectedSystemViewForm.bean.name}</ui:define>
+        <ui:define name="header">#{protectedSystemViewForm.bean.name}</ui:define>
 
         <ui:define name="body">
-            <h3>Genres</h3>
-
-            <div id="select-one" data-alert="" class="alert-box alert" style="display: none;">
-                Please, select exactly one row.
-                <a href="#" class="close">&times;</a>
-            </div>
-
             <form method="post" jsf:id="protectedSystem" jsf:prependId="false" enctype="multipart/form-data" jsf:enctype="multipart/form-data">
                 <div class="row">
-                    <div class="small-6 columns">
-                        <label>Name:
-                            <input type="number" id="systemCount" name="systemCount" jsf:id="systemCount"
-                                   jsf:value="#{protectedSystemForm.systemCount}" label="Total Systems"
+                    <div class="small-4 columns">
+                        <label>ID:
+                            <input type="number" id="id" name="id" jsf:id="id"
+                                   jsf:value="#{protectedSystemViewForm.bean.id}" label="ID"
                                    readonly="true" jsf:readOnly="true" />
                         </label>
-                        <h:message for="name" class="error" />
+                        <h:message for="id" class="error" />
                     </div>
 
-                    <div class="small-6 columns">
-                        <label>Display Order:
-                            <input type="number" id="failures" name="failures"
-                                   jsf:id="failures" label="Current Failures"
-                                   jsf:value="#{protectedSystemForm.failures}"
+                    <div class="small-4 columns">
+                        <label>Created:
+                            <input type="date" id="created" name="created" jsf:id="created"
+                                   jsf:value="#{protectedSystemViewForm.bean.created}" label="Created"
                                    readonly="true" jsf:readOnly="true" />
                         </label>
-                        <h:message for="number" class="error" />
+                        <h:message for="created" class="error" />
+                    </div>
+                    
+                    <div class="small-4 columns">
+                        <label>Last Seen:
+                            <input type="date" id="lastSeen" name="lastSeen" jsf:id="lastSeen"
+                                   jsf:value="#{protectedSystemViewForm.bean.lastSeen}" label="Last Seen"
+                                   readonly="true" jsf:readOnly="true" />
+                        </label>
+                        <h:message for="lastSeen" class="error" />
+                    </div>
+                </div>
+                
+                <h3>Outages Count</h3>
+                
+                <div class="row">
+                    <div class="small-4 columns">
+                        <label>Last Month:
+                            <input type="number" id="lastMonth" name="lastMonth" jsf:id="lastMonth"
+                                   jsf:value="#{protectedSystemViewForm.lastMonth}" label="Last Month"
+                                   readonly="true" jsf:readOnly="true" />
+                        </label>
+                        <h:message for="lastMonth" class="error" />
+                    </div>
+
+                    <div class="small-4 columns">
+                        <label>Last Year:
+                            <input type="number" id="lastYear" name="lastYear" jsf:id="lastYear"
+                                   jsf:value="#{protectedSystemViewForm.lastYear}" label="Last Year"
+                                   readonly="true" jsf:readOnly="true" />
+                        </label>
+                        <h:message for="lastYear" class="error" />
+                    </div>
+                    
+                    <div class="small-4 columns">
+                        <label>Total:
+                            <input type="number" id="all" name="all" jsf:id="all"
+                                   jsf:value="#{protectedSystemViewForm.all}" label="Total"
+                                   readonly="true" jsf:readOnly="true" />
+                        </label>
+                        <h:message for="all" class="error" />
                     </div>
                 </div>
             </form>
+            
+            <h3>Outages List</h3>
 
             <table id="grid" class="display" cellspacing="0" width="100%">
                 <thead> <tr>

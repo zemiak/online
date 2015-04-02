@@ -35,18 +35,17 @@ public class ProtectedSystem implements Serializable {
 
     @OneToMany(mappedBy = "system", fetch = FetchType.LAZY)
     @XmlTransient
-    @Transient
     private Set<Outage> outages;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastSeen;
-    
+
     @NotNull
     private Boolean disabled;
 
     public ProtectedSystem() {
-        
+
     }
 
     public Long getId() {
@@ -115,13 +114,13 @@ public class ProtectedSystem implements Serializable {
     public void setDisabled(Boolean disabled) {
         this.disabled = disabled;
     }
-    
+
     public static ProtectedSystem create() {
         ProtectedSystem system = new ProtectedSystem();
         system.setLastSeen(new Date());
         system.setCreated(system.getLastSeen());
         system.setDisabled(false);
-        
+
         return system;
     }
 }
