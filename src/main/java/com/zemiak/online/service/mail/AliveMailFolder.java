@@ -2,28 +2,24 @@ package com.zemiak.online.service.mail;
 
 import com.zemiak.online.model.AliveMailMessage;
 import java.util.Properties;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.ejb.Singleton;
 import javax.inject.Inject;
 import javax.mail.*;
 
+@Singleton
 public class AliveMailFolder {
     private Folder mailFolder;
-    
-    @Inject
-    private String account;
-    
-    @Inject
-    private String password;
-    
-    @Inject
-    private String store;
-    
-    @Inject
-    private String host;
-    
-    @Inject
-    private String folder;
 
-    public AliveMailFolder() {
+    @Inject private String account;
+    @Inject private String password;
+    @Inject private String host;
+    @Inject private String folder;
+    @Inject private String store;
+
+    @PostConstruct
+    public void init() {
         Session session = Session.getInstance(new Properties());
         Store mailStore;
         try {
@@ -31,7 +27,6 @@ public class AliveMailFolder {
         } catch (NoSuchProviderException ex) {
             throw new RuntimeException("Cannot get store " + store, ex);
         }
-
 
         try {
             mailStore.connect(host, account, password);
@@ -45,6 +40,19 @@ public class AliveMailFolder {
         } catch (MessagingException ex) {
             throw new RuntimeException("Cannot get folder " + folder, ex);
         }
+
+        System.out.println("Open mail connection...");
+    }
+
+    @PreDestroy
+    public void tearDown() {
+        try {
+            mailFolder.close(true);
+        } catch (MessagingException ex) {
+            throw new RuntimeException("Cannot close connection", ex);
+        }
+
+        System.out.println("Close mail connection...");
     }
 
     public int size() {

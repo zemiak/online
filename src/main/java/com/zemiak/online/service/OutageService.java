@@ -1,16 +1,16 @@
 package com.zemiak.online.service;
 
 import com.zemiak.online.model.Outage;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 
 @Stateless
 public class OutageService {
 
-    @Inject
+    @PersistenceContext
     private EntityManager em;
 
     public List<Outage> findByProtectedSystem(Integer id) {

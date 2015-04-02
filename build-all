@@ -1,0 +1,9 @@
+#/bin/sh
+
+mvn -q package 
+if [ $? -eq 0 ]
+then
+    rm ~/bin/wildfly8/standalone/deployments/online.war*
+    cp ./target/online.war ~/bin/wildfly8/standalone/deployments/
+    echo Deployed.
+fi

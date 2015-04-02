@@ -17,7 +17,7 @@ public class ConfigurationProvider {
 
     @PostConstruct
     public void readConfiguration() {
-        
+
         for (String config: CONFIG_FILES) {
             ResourceBundle props = ResourceBundle.getBundle(config);
 

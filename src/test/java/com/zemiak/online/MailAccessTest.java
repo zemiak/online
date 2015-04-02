@@ -15,9 +15,11 @@ public class MailAccessTest {
     @Test
     @Ignore
     public void loginToGmail() throws MessagingException {
-        ResourceBundle prop = ResourceBundle.getBundle("mail");
+        ResourceBundle prop = ResourceBundle.getBundle("account");
         String account = prop.getString("account");
         String password = prop.getString("password");
+
+        prop = ResourceBundle.getBundle("mail");
         String storeName = prop.getString("store");
         String host = prop.getString("host");
         String folderName = prop.getString("folder");
@@ -28,7 +30,7 @@ public class MailAccessTest {
             store = session.getStore(storeName);
         } catch (NoSuchProviderException ex) {
             LOG.log(Level.SEVERE, "Cannot get store " + storeName, ex);
-            return;
+            throw ex;
         }
 
 
@@ -36,7 +38,7 @@ public class MailAccessTest {
             store.connect(host, account, password);
         } catch (MessagingException ex) {
             LOG.log(Level.SEVERE, "Cannot connect to GMail", ex);
-            return;
+            throw ex;
         }
 
         Folder folder;
@@ -45,7 +47,7 @@ public class MailAccessTest {
             folder.open(Folder.READ_ONLY);
         } catch (MessagingException ex) {
             LOG.log(Level.SEVERE, "Cannot get folder " + folderName, ex);
-            return;
+            throw ex;
         }
 
         int messageCount = folder.getMessageCount();
