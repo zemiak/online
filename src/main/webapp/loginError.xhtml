@@ -5,8 +5,18 @@
 
     <ui:composition template="/templates/loggedout.xhtml">
         <ui:define name="title">Online: Login Error</ui:define>
-            <div id="select-one" data-alert="" class="alert-box alert">
-                Please, check your username and password.
+        
+        <ui:define name="body">
+            <div class="row">&nbsp;</div>
+            
+            <div class="row">
+                <div class="panel callout">
+                    Please, check your username and password.
+                </div>
+            </div>
+            
+            <div class="row">
+                <a href="login.xhtml" class="button alert" type="submit" name="submit" >Try Again</a>
             </div>
         </ui:define>
     </ui:composition>

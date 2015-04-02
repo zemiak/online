@@ -19,7 +19,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class MailChecker {
     private static final Logger LOG = Logger.getLogger(MailChecker.class.getName());
-    private static final int COUNT = 60;
+    private static final int COUNT = 15;
 
     @PersistenceContext
     private EntityManager em;

@@ -45,8 +45,14 @@
                 <h2 class="form-signin-heading">Please sign in</h2>
                 <input type='text' id='j_username' name='j_username' class="input-block-level" placeholder="Username" />
                 <input type='password' id='j_password' name='j_password' class="input-block-level" placeholder="Password" />
-                <button class="btn btn-large btn-primary" type="submit" name="submit" >Sign In</button>
+                <button class="button" type="submit" name="submit" >Sign In</button>
             </form>
+            
+            <script>
+                $(document).ready(function(){
+                    $("#j_username").focus();
+                });
+            </script>
         </ui:define>
     </ui:composition>
 </html>
