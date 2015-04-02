@@ -1,11 +1,9 @@
 package com.zemiak.online.service.ui;
 
-import com.zemiak.online.model.Outage;
 import com.zemiak.online.model.ProtectedSystem;
-import com.zemiak.online.service.data.OutageService;
-import com.zemiak.online.service.data.ProtectedSystemService;
+import com.zemiak.online.service.OutageService;
+import com.zemiak.online.service.ProtectedSystemService;
 import java.io.Serializable;
-import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,7 +16,7 @@ public class ProtectedSystemViewForm implements Serializable {
 
     @Inject
     private ProtectedSystemService service;
-    
+
     @Inject
     private OutageService outages;
 
@@ -52,7 +50,15 @@ public class ProtectedSystemViewForm implements Serializable {
         return "index";
     }
 
-    public List<Outage> getOutages() {
-        return outages.findByProtectedSystem(id);
+    public int getAll() {
+        return outages.findByProtectedSystem(id).size();
+    }
+
+    public int getLastMonth() {
+        return outages.findByProtectedSystemAndInterval(id, "1 month").size();
+    }
+
+    public int getLastYear() {
+        return outages.findByProtectedSystemAndInterval(id, "1 year").size();
     }
 }

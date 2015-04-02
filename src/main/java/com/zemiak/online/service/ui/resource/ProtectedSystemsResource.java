@@ -2,7 +2,7 @@ package com.zemiak.online.service.ui.resource;
 
 import com.zemiak.online.model.DataTablesAjaxData;
 import com.zemiak.online.model.ProtectedSystemDTO;
-import com.zemiak.online.service.data.ProtectedSystemService;
+import com.zemiak.online.service.ProtectedSystemService;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;

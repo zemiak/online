@@ -1,4 +1,4 @@
-package com.zemiak.online.service.data;
+package com.zemiak.online.service;
 
 import com.zemiak.online.model.ProtectedSystem;
 import javax.inject.Inject;

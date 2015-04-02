@@ -23,11 +23,9 @@ $(document).ready(function() {
             aButtons: []
         },
         "columns": [
-            { "data": "id" },
-            { "data": "name" },
-            { "data": "outage" },
-            { "data": "lastSeen" },
-            { "data": "created" }
+            { "data": "start" },
+            { "data": "end" },
+            { "data": "duration" }
         ],
         createdRow: function(row, data, index) {
             if (data[2] == "1") {

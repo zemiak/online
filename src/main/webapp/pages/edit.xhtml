@@ -11,23 +11,23 @@
             <f:viewParam name="id" value="#{genreEditForm.id}" />
             <f:viewAction action="#{genreEditForm.check}" />
         </f:metadata>
-        
+
         <ui:define name="title">Online: Systems</ui:define>
         <ui:define name="header">Systems</ui:define>
 
         <ui:define name="body">
             <h3>Genres</h3>
-            
+
             <div id="select-one" data-alert="" class="alert-box alert" style="display: none;">
                 Please, select exactly one row.
                 <a href="#" class="close">&times;</a>
             </div>
-            
+
             <form method="post" jsf:id="protectedSystem" jsf:prependId="false" enctype="multipart/form-data" jsf:enctype="multipart/form-data">
                 <div class="row">
                     <div class="small-6 columns">
                         <label>Name:
-                            <input type="number" id="systemCount" name="systemCount" jsf:id="systemCount" 
+                            <input type="number" id="systemCount" name="systemCount" jsf:id="systemCount"
                                    jsf:value="#{protectedSystemForm.systemCount}" label="Total Systems"
                                    readonly="true" jsf:readOnly="true" />
                         </label>
@@ -36,9 +36,9 @@
 
                     <div class="small-6 columns">
                         <label>Display Order:
-                            <input type="number" id="failures" name="failures" 
+                            <input type="number" id="failures" name="failures"
                                    jsf:id="failures" label="Current Failures"
-                                   jsf:value="#{protectedSystemForm.failures}" 
+                                   jsf:value="#{protectedSystemForm.failures}"
                                    readonly="true" jsf:readOnly="true" />
                         </label>
                         <h:message for="number" class="error" />
@@ -48,7 +48,7 @@
 
             <table id="grid" class="display" cellspacing="0" width="100%">
                 <thead> <tr>
-                    <th>ID</th> <th>Name</th> <th>Outage</th> <th>Last Seen</th> <th>Created</th>
+                    <th>Start</th> <th>End</th> <th>Duration</th>
                 </tr> </thead>
             </table>
 
