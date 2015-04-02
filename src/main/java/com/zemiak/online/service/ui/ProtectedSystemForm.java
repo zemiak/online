@@ -1,6 +1,6 @@
 package com.zemiak.online.service.ui;
 
-import com.zemiak.online.service.ui.resources.ProtectedSystemsResource;
+import com.zemiak.online.service.ui.resource.ProtectedSystemsResource;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;

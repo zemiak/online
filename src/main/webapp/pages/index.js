@@ -8,7 +8,7 @@ function initTimer() {
 
 $(document).ready(function() {
     index_dataTable = $('#grid').dataTable( {
-        "ajax": "/movies/rest/genres",
+        "ajax": "/online/rest/protected-systems",
         "pagingType": "full",
         dom: 'T<"clear">lfrtip',
         tableTools: {
@@ -32,6 +32,6 @@ $(document).ready(function() {
     $('#grid tbody').on('dblclick', 'tr', function() {
 	DataTablesExt.editDoubleClick(this);
     });
-    
+
     initTimer();
 });

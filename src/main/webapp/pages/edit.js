@@ -6,9 +6,16 @@ function initTimer() {
     }, 60000);
 }
 
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 $(document).ready(function() {
     edit_dataTable = $('#grid').dataTable( {
-        "ajax": "/movies/rest/genres",
+        "ajax": "/online/rest/outages/" + getParameterByName("id"),
         "pagingType": "full",
         dom: 'T<"clear">lfrtip',
         tableTools: {
@@ -32,6 +39,6 @@ $(document).ready(function() {
     $('#grid tbody').on('dblclick', 'tr', function() {
 	DataTablesExt.editDoubleClick(this);
     });
-    
+
     initTimer();
 });

@@ -1,4 +1,4 @@
-package com.zemiak.online.service.ui.resources;
+package com.zemiak.online.service.ui.resource;
 
 import com.zemiak.online.model.DataTablesAjaxData;
 import com.zemiak.online.model.ProtectedSystemDTO;

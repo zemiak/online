@@ -1,4 +1,4 @@
-package com.zemiak.online.service.ui.resources;
+package com.zemiak.online.service.ui.resource;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
