@@ -4,11 +4,15 @@ import com.zemiak.online.model.AliveMailMessage;
 import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.ejb.Singleton;
+import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.mail.*;
+import javax.mail.Folder;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Store;
 
-@Singleton
+@Dependent
 public class AliveMailFolder {
     private Folder mailFolder;
 
