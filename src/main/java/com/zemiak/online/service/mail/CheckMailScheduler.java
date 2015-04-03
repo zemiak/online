@@ -14,7 +14,7 @@ public class CheckMailScheduler {
     @Inject
     private MailChecker checker;
 
-    @Schedule(minute = "*/10")
+    @Schedule(minute = "*/10", hour="*", second="0")
     public void check() {
         System.out.println("Timer check.");
         checker.check();
