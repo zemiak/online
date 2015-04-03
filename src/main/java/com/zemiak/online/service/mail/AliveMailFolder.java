@@ -6,11 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.mail.Folder;
-import javax.mail.MessagingException;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Session;
-import javax.mail.Store;
+import javax.mail.*;
 
 @Dependent
 public class AliveMailFolder {
@@ -44,8 +40,6 @@ public class AliveMailFolder {
         } catch (MessagingException ex) {
             throw new RuntimeException("Cannot get folder " + folder, ex);
         }
-
-        System.out.println("Open mail connection...");
     }
 
     @PreDestroy
@@ -55,8 +49,6 @@ public class AliveMailFolder {
         } catch (MessagingException ex) {
             throw new RuntimeException("Cannot close connection", ex);
         }
-
-        System.out.println("Close mail connection...");
     }
 
     public int size() {

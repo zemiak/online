@@ -39,10 +39,7 @@ public class MailChecker {
     public void check() {
         int size = folder.size();
 
-        System.out.println("Folder size: " + size);
-
         for (int i = size; (size - i < COUNT); i--) {
-            System.out.println(String.format("Checking message %d", i));
             check(folder.get(i));
         }
 
@@ -52,16 +49,12 @@ public class MailChecker {
     private void check(AliveMailMessage message) {
         ProtectedSystem system;
 
-        System.out.println("Checking mail: " + message.getSystem() + " " + message.getSent());
-
         try {
             system = em.createNamedQuery("ProtectedSystem.findByName", ProtectedSystem.class)
                     .setParameter("name", message.getSystem())
                     .getSingleResult();
-            System.out.println("... found system");
         } catch (NoResultException ex) {
             system = createProtectedSystem(message.getSystem());
-            System.out.println("... created system");
         }
 
         if (system.getLastSeen().before(message.getSent())) {
@@ -99,9 +92,6 @@ public class MailChecker {
 
         if (outages.isEmpty()) {
             createOutage(system);
-            System.out.println(".... created outage");
-        } else {
-            System.out.println(".... kept outage");
         }
     }
 
@@ -116,7 +106,6 @@ public class MailChecker {
 
         outage.setEnd(new Date());
         stopEvents.fire(new OutageStopEvent(outage, outage.getSystem()));
-        System.out.println(".... stopped outage");
     }
 
     private Outage createOutage(ProtectedSystem system) {

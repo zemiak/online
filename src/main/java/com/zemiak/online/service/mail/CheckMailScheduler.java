@@ -16,13 +16,11 @@ public class CheckMailScheduler {
 
     @Schedule(minute = "*/10", hour="*", second="0")
     public void check() {
-        System.out.println("Timer check.");
         checker.check();
     }
 
     @PostConstruct
     public void firstCheck() {
-        System.out.println("First check.");
         checker.check();
     }
 }
