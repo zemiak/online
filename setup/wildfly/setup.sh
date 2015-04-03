@@ -44,6 +44,9 @@ $CLI --file=common.cli
 echo ... mail
 $CLI --file=mail-session.cli
 
+echo ... https
+$CLI --file=https.cli
+
 echo ... data source
 $CLI --file="$1-ds.cli"
 

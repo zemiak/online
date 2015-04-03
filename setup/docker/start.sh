@@ -8,5 +8,5 @@ service postfix start
 service ssh start
 service cron start
 
-# Wildfly Application Server with the movies application
+# Wildfly Application Server with the online application
 /opt/wildfly/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0
