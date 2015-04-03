@@ -111,7 +111,6 @@ public class MailChecker {
         try {
             outage = em.createNamedQuery("Outage.findAliveBySystem", Outage.class).setParameter("system", system).getSingleResult();
         } catch (NoResultException ex) {
-            System.out.println(".... tried to stop non-existing outage");
             return;
         }
 
