@@ -1,4 +1,4 @@
-package com.zemiak.online.service.mail;
+package com.zemiak.online.service;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;

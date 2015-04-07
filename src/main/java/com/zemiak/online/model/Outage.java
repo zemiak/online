@@ -50,11 +50,11 @@ public class Outage implements Serializable {
         this.id = id;
     }
 
-    public ProtectedSystem getSystem() {
+    public ProtectedSystem getProtectedSystem() {
         return system;
     }
 
-    public void setSystem(ProtectedSystem system) {
+    public void setProtectedSystem(ProtectedSystem system) {
         this.system = system;
     }
 

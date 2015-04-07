@@ -1,14 +1,14 @@
-package com.zemiak.online.service.mail;
+package com.zemiak.online.service;
 
 import com.zemiak.online.model.AliveMailMessage;
 import com.zemiak.online.model.Outage;
 import com.zemiak.online.model.ProtectedSystem;
 import com.zemiak.online.model.ProtectedSystemDTO;
-import com.zemiak.online.service.mail.events.NewProtectedSystemEvent;
-import com.zemiak.online.service.mail.events.OutageStartEvent;
-import com.zemiak.online.service.mail.events.OutageStopEvent;
+import com.zemiak.online.model.event.NewProtectedSystemEvent;
+import com.zemiak.online.model.event.OutageStartEvent;
+import com.zemiak.online.model.event.OutageStopEvent;
+import com.zemiak.online.model.event.ProtectedSystemSeenEvent;
 import java.util.*;
-import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -18,7 +18,6 @@ import javax.persistence.PersistenceContext;
 
 @Stateless
 public class MailChecker {
-    private static final Logger LOG = Logger.getLogger(MailChecker.class.getName());
     private static final int COUNT = 15;
 
     @PersistenceContext
@@ -28,7 +27,10 @@ public class MailChecker {
     private AliveMailFolder folder;
 
     @Inject
-    private Event<NewProtectedSystemEvent> systemEvents;
+    private Event<NewProtectedSystemEvent> newSystemEvents;
+
+    @Inject
+    private Event<ProtectedSystemSeenEvent> seenEvents;
 
     @Inject
     private Event<OutageStartEvent> startEvents;
@@ -54,22 +56,16 @@ public class MailChecker {
                     .setParameter("name", message.getSystem())
                     .getSingleResult();
         } catch (NoResultException ex) {
-            system = createProtectedSystem(message.getSystem());
+            newSystemEvents.fire(new NewProtectedSystemEvent(message.getSystem(), message.getSent()));
+
+            system = em.createNamedQuery("ProtectedSystem.findByName", ProtectedSystem.class)
+                    .setParameter("name", message.getSystem())
+                    .getSingleResult();
         }
 
-        if (system.getLastSeen().before(message.getSent())) {
-            system.setLastSeen(message.getSent());
-        }
-    }
+        seenEvents.fire(new ProtectedSystemSeenEvent(system, message.getSent()));
 
-    private ProtectedSystem createProtectedSystem(String name) {
-        ProtectedSystem system = ProtectedSystem.create();
-        system.setName(name);
-        em.persist(system);
 
-        systemEvents.fire(new NewProtectedSystemEvent(system));
-
-        return system;
     }
 
     private void checkOutages() {
@@ -91,7 +87,7 @@ public class MailChecker {
         }
 
         if (outages.isEmpty()) {
-            createOutage(system);
+            startEvents.fire(new OutageStartEvent(system));
         }
     }
 
@@ -104,24 +100,6 @@ public class MailChecker {
             return;
         }
 
-        outage.setEnd(new Date());
-        stopEvents.fire(new OutageStopEvent(outage, outage.getSystem()));
-    }
-
-    private Outage createOutage(ProtectedSystem system) {
-        Outage outage = new Outage();
-        outage.setSystem(system);
-        em.persist(outage);
-
-        Set<Outage> outages = system.getOutages();
-        if (null == outages) {
-            outages = new HashSet<>();
-            system.setOutages(outages);
-        }
-        outages.add(outage);
-
-        startEvents.fire(new OutageStartEvent(outage, outage.getSystem()));
-
-        return outage;
+        stopEvents.fire(new OutageStopEvent(outage));
     }
 }

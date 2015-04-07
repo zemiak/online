@@ -1,4 +1,4 @@
-package com.zemiak.online.service.mail;
+package com.zemiak.online.service;
 
 import com.zemiak.online.model.AliveMailMessage;
 import java.util.Properties;

@@ -1,5 +1,8 @@
-package com.zemiak.online.service.mail.events;
+package com.zemiak.online.service;
 
+import com.zemiak.online.model.event.OutageStartEvent;
+import com.zemiak.online.model.event.NewProtectedSystemEvent;
+import com.zemiak.online.model.event.OutageStopEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -16,52 +19,43 @@ import javax.mail.internet.MimeMessage;
 @Stateless
 public class MailNotifier {
     private static final Logger LOG = Logger.getLogger(MailNotifier.class.getName());
-    
+
     @Resource(name = "java:/online/mail/default")
     private Session mailSession;
-    
-    @Inject
-    private String mailTo;
-    
-    @Inject
-    private String mailFrom;
-    
-    @Inject
-    private String mailSubjectNew;
-    
-    @Inject
-    private String mailSubjectStart;
-    
-    @Inject
-    private String mailSubjectStop;
-    
+
+    @Inject private String mailTo;
+    @Inject private String mailFrom;
+    @Inject private String mailSubjectNew;
+    @Inject private String mailSubjectStart;
+    @Inject private String mailSubjectStop;
+
     public void newSystem(@Observes NewProtectedSystemEvent event) {
         try {
-            send(mailSubjectNew, event.get().getName());
+            send(mailSubjectNew, event.getName());
         } catch (MessagingException ex) {
             LOG.log(Level.SEVERE, "Cannot send mail: {0}", ex);
         }
     }
-    
+
     public void startOutage(@Observes OutageStartEvent event) {
         try {
-            send(mailSubjectNew, event.getSystem().getName());
+            send(mailSubjectStart, event.getProtectedSystem().getName());
         } catch (MessagingException ex) {
             LOG.log(Level.SEVERE, "Cannot send mail: {0}", ex);
         }
     }
-    
+
     public void stopOutage(@Observes OutageStopEvent event) {
         try {
-            send(mailSubjectNew, event.getSystem().getName());
+            send(mailSubjectStop, event.getOutage().getProtectedSystem().getName());
         } catch (MessagingException ex) {
             LOG.log(Level.SEVERE, "Cannot send mail: {0}", ex);
         }
     }
-    
+
     private void send(String mailSubject, String system) throws MessagingException {
         String subject = String.format(mailSubject, system);
-        
+
         final Message message = new MimeMessage(mailSession);
         message.setFrom(new InternetAddress(mailFrom));
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
