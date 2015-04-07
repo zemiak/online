@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 WILDFLY=wildfly-8.2.0.Final
 PROJECT=~/Documents/projects/online
@@ -7,8 +7,7 @@ INSTALL=~/bin
 TARGET=wildfly8
 
 cd $PROJECT
-sh wildfly
-mvn clean package
+mvn -q clean package
 
 cd $INSTALL
 killall java
@@ -23,10 +22,10 @@ mv $WILDFLY $TARGET
 sleep 5s
 
 cd $PROJECT/setup/wildfly
-bash setup.sh dev
+sh setup.sh dev
 
 cd ~/bin
-./$TARGET/bin/jboss-cli.sh --connect --command="deploy ~/Documents/projects/movies/target/movies.war --force"
+./$TARGET/bin/jboss-cli.sh --connect --command="deploy $PROJECT/target/online.war --force"
 
-#sleep 3s
-#killall java
+sleep 3s
+killall java
