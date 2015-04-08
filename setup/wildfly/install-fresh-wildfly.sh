@@ -6,9 +6,6 @@ DOWNLOAD=~/Downloads/$WILDFLY.zip
 INSTALL=~/bin
 TARGET=wildfly8
 
-cd $PROJECT
-mvn -q clean package
-
 cd $INSTALL
 killall java
 test -d $TARGET && rm -rf $TARGET
@@ -22,7 +19,7 @@ mv $WILDFLY $TARGET
 sleep 5s
 
 cd $PROJECT/setup/wildfly
-sh setup.sh dev
+sh setup.sh
 
 sleep 3s
 killall java

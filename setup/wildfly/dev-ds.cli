@@ -1,8 +1,0 @@
-connect
-
-###
-# Setup DB connection
-###
-
-/subsystem=datasources/data-source=online_db/:add(jndi-name=java\:jboss\/datasources\/online_db,driver-name=postgresql_org.postgresql.Driver_9_3,connection-url=jdbc\:postgresql\:\/\/localhost\:5432\/online,password=online\/0,user-name=online_user)
-reload
