@@ -24,8 +24,5 @@ sleep 5s
 cd $PROJECT/setup/wildfly
 sh setup.sh dev
 
-cd ~/bin
-./$TARGET/bin/jboss-cli.sh --connect --command="deploy $PROJECT/target/online.war --force"
-
 sleep 3s
 killall java

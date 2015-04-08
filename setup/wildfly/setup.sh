@@ -35,20 +35,8 @@ then
     exit 2
 fi
 
-echo ... driver
 $CLI --file=driver-install.cli
-
-echo ... deleting resources
-$CLI --file=common.cli
-
-echo ... mail
-$CLI --file=mail-session.cli
-
-echo ... https
-$CLI --file=https.cli
-
-echo ... data source
 $CLI --file="$1-ds.cli"
-
-echo ... authentication
 $CLI --file=authentication-realm.cli
+$CLI --file=mail-session.cli
+$CLI --file=https.cli
