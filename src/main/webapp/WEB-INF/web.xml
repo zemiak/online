@@ -8,16 +8,18 @@
     </session-config>
     
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>/pages/list.xhtml</welcome-file>
     </welcome-file-list>
     
     <security-constraint>
         <display-name>protected</display-name>
+        
         <web-resource-collection>
             <web-resource-name>userpages</web-resource-name>
             <description/>
             <url-pattern>/pages/*</url-pattern>
         </web-resource-collection>
+        
         <auth-constraint>
             <description>Only Users And Administrators</description>
             <role-name>ADMINISTRATOR</role-name>
@@ -57,21 +59,11 @@
     
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/pages/*</url-pattern>
+        <url-pattern>/pages/*.xhtml</url-pattern>
     </servlet-mapping>
     
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.jsf</url-pattern>
-    </servlet-mapping>
-    
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.faces</url-pattern>
     </servlet-mapping>
 </web-app>
