@@ -6,7 +6,7 @@
     <ui:composition template="/templates/loggedout.xhtml">
         <ui:define name="body">
             <script>
-                window.location.href = "/online/pages/list.xhtml";
+                window.location.href = "#{request.contextPath}/pages/list.xhtml";
             </script>
         </ui:define>
     </ui:composition>
