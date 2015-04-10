@@ -19,6 +19,7 @@ mv $WILDFLY $TARGET
 sleep 5s
 
 cd $PROJECT/setup/wildfly
+cp ../docker/zemiakbox.keystore $INSTALL/$TARGET/standalone/configuration/
 sh setup.sh
 
 sleep 3s

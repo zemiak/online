@@ -33,4 +33,4 @@ $CLI --file=driver.cli
 $CLI --file=datasource.cli
 $CLI --file=authentication-realm.cli
 $CLI --file=mail-session.cli
-#$CLI --file=https.cli
+$CLI --file=https.cli

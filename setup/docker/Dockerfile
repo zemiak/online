@@ -99,6 +99,9 @@ RUN cd /opt \
 # Make sure the distribution is available from a well-known place
 RUN ln -s /opt/wildfly-$WILDFLY_VERSION /opt/wildfly
 
+# Certificate
+ADD zemiakbox.keystore /opt/wildfly/standalone/configuration/
+
 # Set the JBOSS_HOME env variable
 ENV JBOSS_HOME /opt/wildfly
 
