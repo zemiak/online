@@ -15,12 +15,12 @@
                 <a href="#" class="close">&times;</a>
             </div>
             
-            <form method="post" jsf:id="protectedSystem" jsf:prependId="false" enctype="multipart/form-data" jsf:enctype="multipart/form-data">
+            <form method="post" jsf:id="protectedSystem" jsf:prependId="false">
                 <div class="row">
                     <div class="small-6 columns">
                         <label>System Count:
                             <input type="number" id="systemCount" name="systemCount" jsf:id="systemCount" 
-                                   jsf:value="#{protectedSystemForm.systemCount}" label="Total Systems"
+                                   jsf:value="#{protectedSystemListForm.systemCount}" label="Total Systems"
                                    readonly="true" jsf:readOnly="true" />
                         </label>
                         <h:message for="name" class="error" />
@@ -30,7 +30,7 @@
                         <label>Current Failures:
                             <input type="number" id="failures" name="failures" 
                                    jsf:id="failures" label="Current Failures"
-                                   jsf:value="#{protectedSystemForm.failures}" 
+                                   jsf:value="#{protectedSystemListForm.failures}" 
                                    readonly="true" jsf:readOnly="true" />
                         </label>
                         <h:message for="number" class="error" />

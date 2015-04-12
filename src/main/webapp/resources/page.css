@@ -2,3 +2,23 @@ td.systemOutageRow {
     background-color: lightcoral;
     font-weight: bold;
 };
+
+/**
+ * Foundation elements
+ */
+.small-panel {
+    padding-bottom: 0px;
+}
+
+a.item.small-icon-anchor {
+    padding: 5px;
+}
+
+a.item.small-icon-anchor > * {
+    padding: 5px;
+    font-size: 1em;
+}
+
+div.icon-bar.small.one-up {
+    width: 30px;
+}

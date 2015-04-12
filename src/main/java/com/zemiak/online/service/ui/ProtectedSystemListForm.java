@@ -7,19 +7,19 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 @SessionScoped
-@Named("protectedSystemForm")
-public class ProtectedSystemForm implements Serializable {
+@Named("protectedSystemListForm")
+public class ProtectedSystemListForm implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     @Inject private ProtectedSystemsResource systems;
 
-    public ProtectedSystemForm() {
+    public ProtectedSystemListForm() {
     }
 
     public long getFailures() {
         return systems.all().getData().stream().map(system -> system.getOutage() == 1).count();
     }
-    
+
     public long getSystemCount() {
         return systems.all().getData().size();
     }

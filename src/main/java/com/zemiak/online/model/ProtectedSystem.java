@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = "name"))
 @NamedQueries({
-    @NamedQuery(name = "ProtectedSystem.findAll", query = "select e from ProtectedSystem e where e.disabled != true order by e.name"),
+    @NamedQuery(name = "ProtectedSystem.findAll", query = "select e from ProtectedSystem e where e.disabled != true order by e.lastSeen desc"),
     @NamedQuery(name = "ProtectedSystem.findByName", query = "select e from ProtectedSystem e where e.name = :name")
 })
 public class ProtectedSystem implements Serializable {
