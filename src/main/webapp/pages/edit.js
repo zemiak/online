@@ -22,20 +22,12 @@ $(document).ready(function() {
             "sRowSelect": "single",
             aButtons: []
         },
+        "ordering": false,
         "columns": [
             { "data": "start" },
             { "data": "end" },
             { "data": "duration" }
-        ],
-        createdRow: function(row, data, index) {
-            if (data[2] == "1") {
-                $("td", row).addClass("systemOutageRow");
-            }
-        }
-    });
-
-    $('#grid tbody').on('dblclick', 'tr', function() {
-	DataTablesExt.editDoubleClick(this);
+        ]
     });
 
     initTimer();

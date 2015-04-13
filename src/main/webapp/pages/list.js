@@ -15,6 +15,7 @@ $(document).ready(function() {
             "sRowSelect": "single",
             aButtons: []
         },
+        "ordering": false,
         "columns": [
             { "data": "id" },
             { "data": "name" },
