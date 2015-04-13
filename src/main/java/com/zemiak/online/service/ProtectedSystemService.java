@@ -17,7 +17,7 @@ public class ProtectedSystemService {
         return em.createNamedQuery("ProtectedSystem.findAll", ProtectedSystem.class).getResultList();
     }
 
-    public ProtectedSystem find(Integer id) {
+    public ProtectedSystem find(Long id) {
         return em.find(ProtectedSystem.class, id);
     }
 }

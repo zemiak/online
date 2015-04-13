@@ -14,20 +14,20 @@ public class ProtectedSystemDTO implements Serializable {
     private final String created;
     private final String lastSeen;
     private final String disabled;
-    private final Integer outage;
+    private final String outage;
 
     public ProtectedSystemDTO(ProtectedSystem source) {
         id = source.getId();
         name = source.getName();
         disabled = source.isDisabled() ? "1" : "0";
-        created = null == source.getCreated() ? "" : new SimpleDateFormat("yyyy-MM-dd").format(source.getCreated());
-        lastSeen = null == source.getLastSeen() ? "" : new SimpleDateFormat("yyyy-MM-dd").format(source.getLastSeen());
+        created = null == source.getCreated() ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm").format(source.getCreated());
+        lastSeen = null == source.getLastSeen() ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm").format(source.getLastSeen());
 
         if ("".equals(lastSeen)) {
-            outage = 1;
+            outage = "YES";
         } else {
             long diff = (new Date().getTime()) - source.getLastSeen().getTime();
-            outage = TimeUnit.MILLISECONDS.toMinutes(diff) > OUTAGE_MINUTES ? 1 : 0;
+            outage = TimeUnit.MILLISECONDS.toMinutes(diff) > OUTAGE_MINUTES ? "YES" : "no";
         }
     }
 
@@ -51,7 +51,7 @@ public class ProtectedSystemDTO implements Serializable {
         return disabled;
     }
 
-    public Integer getOutage() {
+    public String getOutage() {
         return outage;
     }
 }

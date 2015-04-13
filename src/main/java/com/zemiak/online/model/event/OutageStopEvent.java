@@ -7,6 +7,7 @@ public class OutageStopEvent {
 
     public OutageStopEvent(Outage outage) {
         this.outage = outage;
+        outage.getProtectedSystem().getName(); // lazy load force
     }
 
     public Outage getOutage() {

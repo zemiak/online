@@ -24,7 +24,7 @@ $(document).ready(function() {
             { "data": "created" }
         ],
         createdRow: function(row, data, index) {
-            if (data[2] == "1") {
+            if (data[2] == "YES") {
                 $("td", row).addClass("systemOutageRow");
             }
         }

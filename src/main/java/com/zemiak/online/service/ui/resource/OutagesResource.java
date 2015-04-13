@@ -9,11 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
 @RequestScoped
@@ -26,8 +22,8 @@ public class OutagesResource {
 
     @GET
     @Path("{id}")
-    public DataTablesAjaxData<OutageDTO> all(@PathParam("id") Integer id) {
-        List<Outage> outages = service.findByProtectedSystem(id);
+    public DataTablesAjaxData<OutageDTO> all(@PathParam("id") Long id) {
+        List<Outage> outages = service.findLastYear(id);
 
         List<Outage> sorted = outages.stream().filter(outage -> null != outage.getEnd()).collect(Collectors.toList());
         Collections.sort(sorted, (Outage o1, Outage o2) -> o1.getStart().compareTo(o2.getStart()));

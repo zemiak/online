@@ -17,7 +17,9 @@ public class ProtectedSystemListForm implements Serializable {
     }
 
     public long getFailures() {
-        return systems.all().getData().stream().map(system -> system.getOutage() == 1).count();
+        return systems.all().getData().stream()
+                .filter(system -> "YES".equals(system.getOutage()))
+                .count();
     }
 
     public long getSystemCount() {

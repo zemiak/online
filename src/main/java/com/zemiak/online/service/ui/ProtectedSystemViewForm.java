@@ -11,7 +11,7 @@ import javax.inject.Named;
 @SessionScoped
 @Named("protectedSystemViewForm")
 public class ProtectedSystemViewForm implements Serializable {
-    private Integer id;
+    private Long id;
     private ProtectedSystem bean;
 
     @Inject
@@ -23,11 +23,11 @@ public class ProtectedSystemViewForm implements Serializable {
     public ProtectedSystemViewForm() {
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,10 +55,10 @@ public class ProtectedSystemViewForm implements Serializable {
     }
 
     public int getLastMonth() {
-        return outages.findByProtectedSystemAndInterval(id, "1 month").size();
+        return outages.findLastMonth(id).size();
     }
 
     public int getLastYear() {
-        return outages.findByProtectedSystemAndInterval(id, "1 year").size();
+        return outages.findLastYear(id).size();
     }
 }

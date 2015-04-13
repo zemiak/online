@@ -2,8 +2,7 @@ package com.zemiak.online.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 public class OutageDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,13 +14,13 @@ public class OutageDTO implements Serializable {
 
     public OutageDTO(Outage source) {
         id = source.getId();
-        start = new SimpleDateFormat("yyyy-MM-dd").format(source.getStart());
-        end = null == source.getEnd() ? "" : new SimpleDateFormat("yyyy-MM-dd").format(source.getEnd());
+        start = new SimpleDateFormat("yyyy-MM-dd HH:mm").format(source.getStart());
+        end = null == source.getEnd() ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm").format(source.getEnd());
 
-        LocalDateTime startDate = LocalDateTime.from(source.getStart().toInstant());
-        LocalDateTime endDate = null == source.getEnd() ? LocalDateTime.now() : LocalDateTime.from(source.getEnd().toInstant());
+        Date startDate = source.getStart();
+        Date endDate = null == source.getEnd() ? new Date() : source.getEnd();
 
-        Long seconds = ChronoUnit.SECONDS.between(startDate, endDate);
+        Long seconds = (endDate.getTime() - startDate.getTime()) / 1000;
         Long hours = seconds / 3600;
         seconds -= (seconds / 3600) * 3600;
         Long minutes = seconds / 60;
