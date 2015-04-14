@@ -1,13 +1,13 @@
-var index_dataTable;
+/* global DataTablesExt */
 
-function initTimer() {
+function initTimer(table) {
     setInterval(function(){
-        index_dataTable.ajax.reload();
+        table.ajax.reload();
     }, 60000);
 }
 
 $(document).ready(function() {
-    index_dataTable = $('#grid').dataTable( {
+    var table = $('#grid').DataTable( {
         "ajax": "/online/rest/protected-systems",
         "pagingType": "full",
         dom: 'T<"clear">lfrtip',
@@ -23,8 +23,8 @@ $(document).ready(function() {
             { "data": "lastSeen" },
             { "data": "created" }
         ],
-        createdRow: function(row, data, index) {
-            if (data[2] == "YES") {
+        "createdRow": function(row, data, index) {
+            if (data.outage === "YES") {
                 $("td", row).addClass("systemOutageRow");
             }
         }
@@ -34,5 +34,5 @@ $(document).ready(function() {
 	DataTablesExt.editDoubleClick(this);
     });
 
-    initTimer();
+    initTimer(table);
 });

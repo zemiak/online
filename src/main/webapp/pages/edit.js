@@ -1,8 +1,6 @@
-var edit_dataTable;
-
-function initTimer() {
+function initTimer(table) {
     setInterval(function(){
-        edit_dataTable.ajax.reload();
+        table.ajax.reload();
     }, 60000);
 }
 
@@ -14,7 +12,7 @@ function getParameterByName(name) {
 }
 
 $(document).ready(function() {
-    edit_dataTable = $('#grid').dataTable( {
+    var table = $('#grid').DataTable( {
         "ajax": "/online/rest/outages/" + getParameterByName("id"),
         "pagingType": "full",
         dom: 'T<"clear">lfrtip',
@@ -27,8 +25,14 @@ $(document).ready(function() {
             { "data": "start" },
             { "data": "end" },
             { "data": "duration" }
-        ]
+        ],
+        "createdRow": function(row, data, index) {
+            console.log(data);
+            if (data.end === "") {
+                $("td", row).addClass("systemOutageRow");
+            }
+        }
     });
 
-    initTimer();
+    initTimer(table);
 });
