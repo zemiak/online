@@ -13,3 +13,5 @@ src/dev/resources/account.properties
 src/prod/resources/account.properties
 src/test/resources/account.properties
 setup/docker/zemiakbox.keystore
+setup/docker/*.keystore
+setup/docker/*.pem
