@@ -1,3 +1,4 @@
 jdk.tar.gz -- JDK 1.8.x from Oracle
 wildfly-8.2.0.Final.tar.gz
 online.war -- built woth prod profile, including mail password file
+zemiakbox.keystore -- https server certificate
