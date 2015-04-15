@@ -11,7 +11,6 @@ RUN chown vasko.vasko /home/vasko
 RUN echo 'root:docker' | chpasswd
 RUN echo 'vasko:docker' | chpasswd
 RUN mkdir /home/vasko/.ssh && chown vasko.vasko /home/vasko/.ssh && chmod 700 /home/vasko/.ssh
-RUN chown vasko.vasko /home/vasko/.ssh/authorized_keys && chmod 400 /home/vasko/.ssh/authorized_keys
 
 # Mail
 ADD main.cf /etc/postfix/
@@ -46,9 +45,7 @@ RUN mkdir -p /mnt/backup
 ENV ONLINE_VERSION 1_0_0
 
 USER root
-
 ADD jdk.tar.gz /opt/
-RUN cd /opt && tar -xzf /opt/jdk.tar.gz && rm -f /opt/jdk.tar.gz
 RUN ln -s /opt/jdk* /opt/jdk
 ENV JAVA_HOME /opt/jdk
 ENV PATH $PATH:/opt/jdk/bin
@@ -59,9 +56,6 @@ ENV WILDFLY_VERSION 8.2.0.Final
 
 # Add the WildFly distribution to /opt
 ADD wildfly-$WILDFLY_VERSION.tar.gz /opt/
-RUN cd /opt \
-    && tar xzf wildfly-$WILDFLY_VERSION.tar.gz \
-    && rm wildfly-$WILDFLY_VERSION.tar.gz
 
 # Make sure the distribution is available from a well-known place
 RUN ln -s /opt/wildfly-$WILDFLY_VERSION /opt/wildfly
