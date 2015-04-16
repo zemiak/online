@@ -42,7 +42,7 @@ ADD postgresql-backup.sh /usr/local/bin/
 RUN mkdir -p /mnt/backup
 
 # Wildfly Application Server and Online Application
-ENV ONLINE_VERSION 1_0_0
+ENV ONLINE_VERSION 1_0_1
 
 USER root
 ADD jdk.tar.gz /opt/
