@@ -13,7 +13,14 @@ RUN echo 'vasko:docker' | chpasswd
 RUN mkdir /home/vasko/.ssh && chown vasko.vasko /home/vasko/.ssh && chmod 700 /home/vasko/.ssh
 
 # Mail
+ADD mailname /etc/
 ADD main.cf /etc/postfix/
+ADD sasl_passwd /etc/postfix/
+RUN postmap /etc/postfix/sasl_passwd
+RUN chmod 600 /etc/postfix/sasl_passwd*
+RUN chown -RR root:postdrop /usr/sbin/postqueue
+RUN chown -R root:postdrop /usr/sbin/postdrop
+
 
 # PostgreSQL
 USER root
@@ -28,8 +35,8 @@ USER postgres
 
 RUN    /etc/init.d/postgresql start &&\
     psql --command "CREATE USER online_user WITH SUPERUSER PASSWORD 'online/0';" &&\
-    createdb --owner=online_user online_db &&\
-    cat /tmp/online-db.sql | psql online_db >/dev/null &&\
+    createdb --owner=online_user online &&\
+    cat /tmp/online-db.sql | psql online >/dev/null &&\
     /etc/init.d/postgresql stop
 
 ADD pg_hba.conf /etc/postgresql/9.1/main/
@@ -109,3 +116,4 @@ ADD start.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/start.sh
 
 CMD "/usr/local/bin/start.sh"
+

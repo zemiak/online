@@ -16,3 +16,4 @@ setup/docker/*.keystore
 setup/docker/*.pem
 setup/docker/wildfly-8.2.0.Final.tar.gz
 setup/docker/jdk.tar.gz
+setup/docker/sasl_passwd
