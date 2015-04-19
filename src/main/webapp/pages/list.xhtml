@@ -17,23 +17,33 @@
             
             <form method="post" jsf:id="protectedSystem" jsf:prependId="false">
                 <div class="row">
-                    <div class="small-6 columns">
+                    <div class="small-4 columns">
                         <label>System Count:
                             <input type="number" id="systemCount" name="systemCount" jsf:id="systemCount" 
                                    jsf:value="#{protectedSystemListForm.systemCount}" label="Total Systems"
                                    readonly="true" jsf:readOnly="true" />
                         </label>
-                        <h:message for="name" class="error" />
+                        <h:message for="systemCount" class="error" />
                     </div>
 
-                    <div class="small-6 columns">
+                    <div class="small-4 columns">
                         <label>Current Failures:
                             <input type="number" id="failures" name="failures" 
                                    jsf:id="failures" label="Current Failures"
                                    jsf:value="#{protectedSystemListForm.failures}" 
                                    readonly="true" jsf:readOnly="true" />
                         </label>
-                        <h:message for="number" class="error" />
+                        <h:message for="failures" class="error" />
+                    </div>
+                    
+                    <div class="small-4 columns">
+                        <label>Last Refresh Date:
+                            <input type="text" id="lastRefresh" name="lastRefresh" 
+                                   jsf:id="lastRefresh" label="Last Refresh Date"
+                                   jsf:value="#{protectedSystemListForm.lastRefreshDate}" 
+                                   readonly="true" jsf:readOnly="true" />
+                        </label>
+                        <h:message for="lastRefresh" class="error" />
                     </div>
                 </div>
             </form>
@@ -44,23 +54,26 @@
             
             <div class="row">
                 <div class="small-12 columns">
-                    <table id="grid" class="display" cellspacing="0" width="100%">
-                        <thead> <tr>
-                            <th>ID</th> <th>Name</th> <th>Outage</th> <th>Last Seen</th> <th>Created</th>
-                        </tr> </thead>
-                    </table>
+                    <div class="page">
+                        <ui:repeat var="item" value="#{protectedSystemListForm.all}">
+                            <div class="box#{item.systemOutage ? ' outage' : ''}">
+                                <a href="edit.xhtml?id=#{item.id}">
+                                    <p>#{item.name}
+                                        <br></br>
+                                        #{item.lastSeen}
+                                    </p>
+                                </a>
+                            </div>
+                        </ui:repeat>
+                    </div>
                 </div>
             </div>
             
-            <div class="row">
-                <div class="small-12 columns">
-                    <ul class="button-group">
-                        <li><a href="javascript:DataTablesExt.editClick();" class="small button">Edit</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <script type="text/javascript" src="list.js"></script>
+            <script>
+                setInterval(function(){
+                    window.location.reload();
+                }, 60000);
+            </script>
         </ui:define>
     </ui:composition>
 </html>

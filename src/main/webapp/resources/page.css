@@ -1,4 +1,46 @@
-td.systemOutageRow {
+/**
+ * Protected System List (Main Screen)
+ */
+.page {
+    width: 100%;
+}
+
+.box {
+    width: 12em;
+    height: 4em;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    float: left;
+}
+
+.box.outage {
+    background-color: lightcoral;
+}
+
+.box.outage > a > p {
+    font-weight: bold;
+    color: yellow;
+}
+
+.box.outage > label {
+    font-weight: bold;
+    color: yellow;
+}
+
+.box > a > p {
+    width: 11em;
+    text-align: center;
+}
+
+.box > label {
+    width: 11em;
+    text-align: center;
+}
+
+/**
+ * Red color for outage DataTables rows
+ */
+td.outage {
     background-color: lightcoral;
     font-weight: bold;
 };

@@ -119,9 +119,9 @@ INSERT INTO credentials (id, created, name, password) VALUES (1, '2014-08-30 11:
 -- Data for Name: protectedsystem; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-INSERT INTO protectedsystem (id, created, name, lastseen, disabled) VALUES (1, '2014-09-18 21:39:43.99', 'raspberry-server', '2014-09-18 21:39:43.99', false);
+INSERT INTO protectedsystem (id, created, name, lastseen, disabled) VALUES (1, '2014-09-18 21:39:43.99', 'raspberry-server', '2014-09-18 21:39:43.99', true);
 INSERT INTO protectedsystem (id, created, name, lastseen, disabled) VALUES (2, '2014-09-18 21:39:44.305', 'lenovo-server', '2014-09-18 21:39:44.305', false);
-INSERT INTO protectedsystem (id, created, name, lastseen, disabled) VALUES (3, '2014-09-18 21:39:44.627', 'mac-server', '2014-09-18 21:39:44.627', false);
+INSERT INTO protectedsystem (id, created, name, lastseen, disabled) VALUES (3, '2014-09-18 21:39:44.627', 'mac-server', '2014-09-18 21:39:44.627', true);
 
 
 --
@@ -221,3 +221,26 @@ ALTER TABLE ONLY outage
 -- PostgreSQL database dump complete
 --
 
+-- Sequence: data.entity_id_seq
+
+-- DROP SEQUENCE data.entity_id_seq;
+
+CREATE SEQUENCE entity_id_seq_system
+  INCREMENT 1
+  MINVALUE 1000
+  MAXVALUE 9223372036854775807
+  START 1000
+  CACHE 1;
+
+CREATE SEQUENCE entity_id_seq_outage
+  INCREMENT 1
+  MINVALUE 2000
+  MAXVALUE 9223372036854775807
+  START 2000
+  CACHE 1;
+
+ALTER TABLE entity_id_seq_outage
+  OWNER TO online_user;
+
+ALTER TABLE entity_id_seq_system
+  OWNER TO online_user;

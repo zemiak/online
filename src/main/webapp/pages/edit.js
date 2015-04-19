@@ -27,9 +27,8 @@ $(document).ready(function() {
             { "data": "duration" }
         ],
         "createdRow": function(row, data, index) {
-            console.log(data);
             if (data.end === "") {
-                $("td", row).addClass("systemOutageRow");
+                $("td", row).addClass("outage");
             }
         }
     });

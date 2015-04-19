@@ -3,6 +3,8 @@ package com.zemiak.online.service.ui.resource;
 import com.zemiak.online.model.DataTablesAjaxData;
 import com.zemiak.online.model.ProtectedSystemDTO;
 import com.zemiak.online.service.ProtectedSystemService;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.stream.Collectors;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -23,5 +25,11 @@ public class ProtectedSystemsResource {
     @GET
     public DataTablesAjaxData<ProtectedSystemDTO> all() {
         return new DataTablesAjaxData<>(service.all().stream().map(e -> new ProtectedSystemDTO(e)).collect(Collectors.toList()));
+    }
+
+    @GET
+    @Path("last-refresh")
+    public String getLastRefreshDate() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(new Date());
     }
 }

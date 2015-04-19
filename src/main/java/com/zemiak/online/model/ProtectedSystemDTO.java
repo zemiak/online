@@ -54,4 +54,8 @@ public class ProtectedSystemDTO implements Serializable {
     public String getOutage() {
         return outage;
     }
+
+    public boolean isSystemOutage() {
+        return "YES".equals(outage);
+    }
 }

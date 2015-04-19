@@ -23,7 +23,9 @@ public class ProtectedSystem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name="pk_sequence", sequenceName="entity_id_seq_system", allocationSize=1, initialValue = 1000)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_sequence")
+    @Basic(optional = false)
     private Long id;
 
     @NotNull

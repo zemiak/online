@@ -38,8 +38,11 @@ public class MailChecker {
     @Inject
     private Event<OutageStopEvent> stopEvents;
 
+    private Calendar now;
+
     public void check() {
         int size = folder.size();
+        now = new GregorianCalendar();
 
         for (int i = size; (size - i < COUNT); i--) {
             check(folder.get(i));
@@ -55,6 +58,10 @@ public class MailChecker {
             system = em.createNamedQuery("ProtectedSystem.findByName", ProtectedSystem.class)
                     .setParameter("name", message.getSystem())
                     .getSingleResult();
+            
+            if (system.isDisabled()) {
+                system.setDisabled(false);
+            }
         } catch (NoResultException ex) {
             newSystemEvents.fire(new NewProtectedSystemEvent(message.getSystem(), message.getSent()));
 
@@ -64,15 +71,15 @@ public class MailChecker {
         }
 
         seenEvents.fire(new ProtectedSystemSeenEvent(system, message.getSent()));
-
-
     }
 
     private void checkOutages() {
-        Calendar now = new GregorianCalendar();
         now.add(Calendar.MINUTE, -ProtectedSystemDTO.OUTAGE_MINUTES);
-        em.createNamedQuery("ProtectedSystem.findAll", ProtectedSystem.class).getResultList().stream().forEach((system) -> {
-            if (now.after(system.getLastSeen())) {
+        em.createNamedQuery("ProtectedSystem.findAll", ProtectedSystem.class).getResultList().stream()
+                .forEach((system) -> {
+            ProtectedSystemDTO dto = new ProtectedSystemDTO(system);
+
+            if (dto.isSystemOutage()) {
                 startOutage(system);
             } else {
                 stopOutage(system);
