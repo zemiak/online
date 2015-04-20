@@ -7,6 +7,11 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 import javax.mail.*;
+import javax.mail.Folder;
+import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
+import javax.mail.Session;
+import javax.mail.Store;
 
 @Dependent
 public class AliveMailFolder {
@@ -62,7 +67,7 @@ public class AliveMailFolder {
     public AliveMailMessage get(int i) {
         try {
             return new AliveMailMessage(mailFolder.getMessage(i));
-        } catch (MessagingException ex) {
+        } catch (MessagingException | RuntimeException ex) {
             throw new RuntimeException("Cannot get message #" + i, ex);
         }
     }

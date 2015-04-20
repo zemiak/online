@@ -8,7 +8,11 @@ import com.zemiak.online.model.event.NewProtectedSystemEvent;
 import com.zemiak.online.model.event.OutageStartEvent;
 import com.zemiak.online.model.event.OutageStopEvent;
 import com.zemiak.online.model.event.ProtectedSystemSeenEvent;
-import java.util.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
@@ -19,6 +23,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class MailChecker {
     private static final int COUNT = 15;
+    private static final Logger LOG = Logger.getLogger(MailChecker.class.getName());
 
     @PersistenceContext
     private EntityManager em;
@@ -45,7 +50,11 @@ public class MailChecker {
         now = new GregorianCalendar();
 
         for (int i = size; (size - i < COUNT); i--) {
-            check(folder.get(i));
+            try {
+                check(folder.get(i));
+            } catch (RuntimeException ex) {
+                LOG.log(Level.SEVERE, "Bad message {}", i);
+            }
         }
 
         checkOutages();
@@ -58,7 +67,7 @@ public class MailChecker {
             system = em.createNamedQuery("ProtectedSystem.findByName", ProtectedSystem.class)
                     .setParameter("name", message.getSystem())
                     .getSingleResult();
-            
+
             if (system.isDisabled()) {
                 system.setDisabled(false);
             }
