@@ -53,7 +53,7 @@ public class MailChecker {
             try {
                 check(folder.get(i));
             } catch (RuntimeException ex) {
-                LOG.log(Level.SEVERE, "Bad message {}", i);
+                LOG.log(Level.SEVERE, "Bad message " + i);
             }
         }
 
