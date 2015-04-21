@@ -1,0 +1,86 @@
+package com.zemiak.online.service.notifications;
+
+import com.sun.mail.util.MailConnectException;
+import com.zemiak.online.model.ProtectedSystem;
+import com.zemiak.online.model.ProtectedSystemDTO;
+import com.zemiak.online.service.OutageService;
+import com.zemiak.online.service.ProtectedSystemService;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.ejb.Schedule;
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
+@Stateless
+public class DailyMailNotifier {
+    private static final Logger LOG = Logger.getLogger(DailyMailNotifier.class.getName());
+
+    @Resource(name = "java:/online/mail/default")
+    private Session mailSession;
+
+    @Inject String mailTo;
+    @Inject String mailFrom;
+    @Inject String mailSubjectDailyOk;
+    @Inject String mailSubjectDailyFailures;
+
+    @Inject ProtectedSystemService systems;
+    @Inject OutageService outages;
+
+    @Schedule(minute = "0", hour="3", second="30")
+    public void check() {
+        boolean failure = false;
+        String text = "";
+
+        for (ProtectedSystem system: systems.all()) {
+            if (system.isDisabled()) {
+                continue;
+            }
+
+            if (system.isOutage()) {
+                failure = true;
+            }
+
+            text += getSystemReport(system);
+        }
+
+        try {
+            send(failure ? mailSubjectDailyFailures : mailSubjectDailyOk, text);
+        } catch (MessagingException ex) {
+            LOG.log(Level.SEVERE, "Cannot send mail: {0}", ex);
+        }
+    }
+
+    private void send(String mailSubject, String text) throws MessagingException, MailConnectException {
+        final Message message = new MimeMessage(mailSession);
+        message.setFrom(new InternetAddress(mailFrom));
+        message.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
+        message.setSubject(mailSubject);
+        message.setText(text);
+
+        Transport.send(message);
+
+        LOG.log(Level.INFO, "Sent {0} to {1}", new Object[]{mailSubject, mailTo});
+    }
+
+    private String getSystemReport(ProtectedSystem system) {
+        ProtectedSystemDTO dto = new ProtectedSystemDTO(system);
+        String text = "";
+
+        if (system.isOutage()) {
+            text += system.getName() + ": RUNNING OUTAGE\n";
+            text += "Last seen: " + dto.getLastSeen() + "\n\n";
+        } else {
+            text += system.getName() + ": OK\n";
+            text += "Last seen: " + dto.getLastSeen() + "\n\n";
+        }
+
+        return text;
+    }
+}

@@ -1,5 +1,6 @@
 package com.zemiak.online.service;
 
+import com.zemiak.online.service.gmail.MailChecker;
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
 import javax.ejb.Schedule;

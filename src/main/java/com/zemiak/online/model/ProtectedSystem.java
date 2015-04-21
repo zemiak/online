@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -21,6 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class ProtectedSystem implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final int OUTAGE_MINUTES = 30;
 
     @Id
     @SequenceGenerator(name="pk_sequence", sequenceName="entity_id_seq_system", allocationSize=1, initialValue = 1000)
@@ -124,5 +126,14 @@ public class ProtectedSystem implements Serializable {
         system.setDisabled(false);
 
         return system;
+    }
+
+    public Boolean isOutage() {
+        if (null == getLastSeen()) {
+            return true;
+        }
+        
+        long diff = (new Date().getTime()) - getLastSeen().getTime();
+        return TimeUnit.MILLISECONDS.toMinutes(diff) > OUTAGE_MINUTES;
     }
 }

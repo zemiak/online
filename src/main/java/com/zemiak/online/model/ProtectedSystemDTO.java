@@ -2,12 +2,9 @@ package com.zemiak.online.model;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 public class ProtectedSystemDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    public static final int OUTAGE_MINUTES = 30;
 
     private final Long id;
     private final String name;
@@ -22,13 +19,7 @@ public class ProtectedSystemDTO implements Serializable {
         disabled = source.isDisabled() ? "1" : "0";
         created = null == source.getCreated() ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm").format(source.getCreated());
         lastSeen = null == source.getLastSeen() ? "" : new SimpleDateFormat("yyyy-MM-dd HH:mm").format(source.getLastSeen());
-
-        if ("".equals(lastSeen)) {
-            outage = "YES";
-        } else {
-            long diff = (new Date().getTime()) - source.getLastSeen().getTime();
-            outage = TimeUnit.MILLISECONDS.toMinutes(diff) > OUTAGE_MINUTES ? "YES" : "no";
-        }
+        outage = source.isOutage() ? "YES" : "no";
     }
 
     public Long getId() {

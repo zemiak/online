@@ -1,4 +1,4 @@
-package com.zemiak.online.service;
+package com.zemiak.online.service.gmail;
 
 import com.zemiak.online.model.AliveMailMessage;
 import com.zemiak.online.model.Outage;
@@ -83,7 +83,7 @@ public class MailChecker {
     }
 
     private void checkOutages() {
-        now.add(Calendar.MINUTE, -ProtectedSystemDTO.OUTAGE_MINUTES);
+        now.add(Calendar.MINUTE, -ProtectedSystem.OUTAGE_MINUTES);
         em.createNamedQuery("ProtectedSystem.findAll", ProtectedSystem.class).getResultList().stream()
                 .forEach((system) -> {
             ProtectedSystemDTO dto = new ProtectedSystemDTO(system);

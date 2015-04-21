@@ -1,4 +1,4 @@
-package com.zemiak.online.service;
+package com.zemiak.online.service.notifications;
 
 import com.sun.mail.util.MailConnectException;
 import com.zemiak.online.model.event.NewProtectedSystemEvent;
