@@ -1,6 +1,7 @@
 package com.zemiak.online.service.notifications;
 
 import com.sun.mail.util.MailConnectException;
+import com.zemiak.online.model.OutageDTO;
 import com.zemiak.online.model.ProtectedSystem;
 import com.zemiak.online.model.ProtectedSystemDTO;
 import com.zemiak.online.service.OutageService;
@@ -19,8 +20,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 @Stateless
-public class DailyMailNotifier {
-    private static final Logger LOG = Logger.getLogger(DailyMailNotifier.class.getName());
+public class DailyNotifier {
+    private static final Logger LOG = Logger.getLogger(DailyNotifier.class.getName());
 
     @Resource(name = "java:/online/mail/default")
     private Session mailSession;
@@ -43,7 +44,7 @@ public class DailyMailNotifier {
                 continue;
             }
 
-            if (system.isOutage()) {
+            if (system.isOutage() || wasOutageLastDay(system)) {
                 failure = true;
             }
 
@@ -76,11 +77,34 @@ public class DailyMailNotifier {
         if (system.isOutage()) {
             text += system.getName() + ": RUNNING OUTAGE\n";
             text += "Last seen: " + dto.getLastSeen() + "\n\n";
+        } else if (wasOutageLastDay(system)) {
+            text += system.getName() + ": Outage in the last 24 hours\n";
+            text += "Last seen: " + dto.getLastSeen() + "\n";
+            text += dumpLastDayOutages(system);
         } else {
             text += system.getName() + ": OK\n";
             text += "Last seen: " + dto.getLastSeen() + "\n\n";
         }
 
         return text;
+    }
+
+    private boolean wasOutageLastDay(ProtectedSystem system) {
+        return !outages.findLastDayByEnd(system.getId()).isEmpty();
+    }
+
+    private String dumpLastDayOutages(ProtectedSystem system) {
+        final StringBuilder sb = new StringBuilder("Outages:\n");
+
+        outages.findLastDayByEnd(system.getId()).stream()
+                .map(OutageDTO::new)
+                .forEach(o -> {
+                    sb.append("Start: ").append(o.getStart())
+                            .append(", end: ").append(o.getEnd())
+                            .append(", duration: ").append(o.getDuration())
+                            .append("\n");
+                });
+
+        return sb.toString();
     }
 }

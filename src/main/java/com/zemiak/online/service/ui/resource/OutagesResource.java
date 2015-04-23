@@ -29,6 +29,6 @@ public class OutagesResource {
         Collections.sort(sorted, (Outage o1, Outage o2) -> o1.getStart().compareTo(o2.getStart()));
         outages.stream().filter(outage -> null == outage.getEnd()).findFirst().ifPresent(outage -> sorted.add(0, outage));
 
-        return new DataTablesAjaxData<>(sorted.stream().map(e -> new OutageDTO(e)).collect(Collectors.toList()));
+        return new DataTablesAjaxData<>(sorted.stream().map(OutageDTO::new).collect(Collectors.toList()));
     }
 }

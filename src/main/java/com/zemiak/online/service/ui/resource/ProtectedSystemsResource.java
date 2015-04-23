@@ -24,7 +24,7 @@ public class ProtectedSystemsResource {
 
     @GET
     public DataTablesAjaxData<ProtectedSystemDTO> all() {
-        return new DataTablesAjaxData<>(service.all().stream().map(e -> new ProtectedSystemDTO(e)).collect(Collectors.toList()));
+        return new DataTablesAjaxData<>(service.all().stream().map(ProtectedSystemDTO::new).collect(Collectors.toList()));
     }
 
     @GET
