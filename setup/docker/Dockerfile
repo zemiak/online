@@ -67,6 +67,9 @@ ADD wildfly-$WILDFLY_VERSION.tar.gz /opt/
 # Make sure the distribution is available from a well-known place
 RUN ln -s /opt/wildfly-$WILDFLY_VERSION /opt/wildfly
 
+# Stock 8.2 options plus UTC timezone
+ADD standalone.conf /opt/wildfly/bin/
+
 # Certificate
 ADD zemiakbox.keystore /opt/wildfly/standalone/configuration/
 
