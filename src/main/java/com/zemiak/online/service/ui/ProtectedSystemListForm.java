@@ -7,12 +7,14 @@ import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Transient;
 
 @SessionScoped
 @Named("protectedSystemListForm")
 public class ProtectedSystemListForm implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Transient
     @Inject private ProtectedSystemsResource systems;
 
     public ProtectedSystemListForm() {

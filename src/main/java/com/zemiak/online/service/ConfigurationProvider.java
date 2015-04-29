@@ -21,7 +21,7 @@ public class ConfigurationProvider {
         for (String config: CONFIG_FILES) {
             ResourceBundle props = ResourceBundle.getBundle(config);
 
-            props.keySet().stream().forEach((key) -> {
+            props.keySet().stream().forEach(key -> {
                 configuration.put(key, props.getString(key));
             });
         }
@@ -30,8 +30,7 @@ public class ConfigurationProvider {
     @Produces
     public String getString(InjectionPoint point) {
         String fieldName = point.getMember().getName();
-        String valueForFieldName = configuration.get(fieldName);
-        return valueForFieldName;
+        return configuration.get(fieldName);
     }
 
     @Produces

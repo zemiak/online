@@ -49,11 +49,11 @@ public class MailChecker {
         int size = folder.size();
         now = new GregorianCalendar();
 
-        for (int i = size; (size - i < COUNT); i--) {
+        for (int i = size; size - i < COUNT; i--) {
             try {
                 check(folder.get(i));
             } catch (RuntimeException ex) {
-                LOG.log(Level.SEVERE, "Bad message " + i);
+                LOG.log(Level.SEVERE, "Bad message {0}", i);
             }
         }
 
@@ -85,7 +85,7 @@ public class MailChecker {
     private void checkOutages() {
         now.add(Calendar.MINUTE, -ProtectedSystem.OUTAGE_MINUTES);
         em.createNamedQuery("ProtectedSystem.findAll", ProtectedSystem.class).getResultList().stream()
-                .forEach((system) -> {
+                .forEach(system -> {
             ProtectedSystemDTO dto = new ProtectedSystemDTO(system);
 
             if (dto.isSystemOutage()) {
@@ -113,6 +113,7 @@ public class MailChecker {
         try {
             outage = em.createNamedQuery("Outage.findAliveBySystem", Outage.class).setParameter("system", system).getSingleResult();
         } catch (NoResultException ex) {
+            LOG.log(Level.INFO, "Tried to stop a non-existing exception for {0}", system.getName());
             return;
         }
 

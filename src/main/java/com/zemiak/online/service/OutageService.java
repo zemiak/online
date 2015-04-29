@@ -20,20 +20,20 @@ public class OutageService {
 
     public List<Outage> findLastMonth(Long id) {
         return findByProtectedSystem(id).stream()
-                .filter(system -> (system.getStart().getTime() > (1000 * 3600 * 24 * 31)))
+                .filter(system -> system.getStart().getTime() > (1000 * 3600 * 24 * 31))
                 .collect(Collectors.toList());
     }
 
     public List<Outage> findLastYear(Long id) {
         return findByProtectedSystem(id).stream()
-                .filter(system -> (system.getStart().getTime() > (1000 * 3600 * 24 * 366)))
+                .filter(system -> system.getStart().getTime() > (1000 * 3600 * 24 * 366))
                 .collect(Collectors.toList());
     }
 
     public List<Outage> findLastDayByEnd(Long id) {
         return findByProtectedSystem(id).stream()
                 .filter(system -> null != system.getEnd())
-                .filter(system -> (system.getEnd().getTime() > (1000 * 3600 * 24)))
+                .filter(system -> system.getEnd().getTime() > (1000 * 3600 * 24))
                 .collect(Collectors.toList());
     }
 }

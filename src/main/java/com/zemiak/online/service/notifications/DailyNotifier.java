@@ -1,6 +1,5 @@
 package com.zemiak.online.service.notifications;
 
-import com.sun.mail.util.MailConnectException;
 import com.zemiak.online.model.OutageDTO;
 import com.zemiak.online.model.ProtectedSystem;
 import com.zemiak.online.model.ProtectedSystemDTO;
@@ -58,7 +57,7 @@ public class DailyNotifier {
         }
     }
 
-    private void send(String mailSubject, String text) throws MessagingException, MailConnectException {
+    private void send(String mailSubject, String text) throws MessagingException {
         final Message message = new MimeMessage(mailSession);
         message.setFrom(new InternetAddress(mailFrom));
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(mailTo));
@@ -98,12 +97,11 @@ public class DailyNotifier {
 
         outages.findLastDayByEnd(system.getId()).stream()
                 .map(OutageDTO::new)
-                .forEach(o -> {
-                    sb.append("Start: ").append(o.getStart())
+                .forEach(o -> sb.append("Start: ").append(o.getStart())
                             .append(", end: ").append(o.getEnd())
                             .append(", duration: ").append(o.getDuration())
-                            .append("\n");
-                });
+                            .append("\n")
+                );
 
         return sb.toString();
     }

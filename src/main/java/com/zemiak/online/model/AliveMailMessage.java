@@ -51,7 +51,7 @@ public class AliveMailMessage {
         try {
             setReceived(msg.getReceivedDate());
         } catch (MessagingException ex) {
-            throw new RuntimeException("Cannot get Received Date", ex);
+            throw new MailParseException("Cannot get Received Date", ex);
         }
     }
 
@@ -59,7 +59,7 @@ public class AliveMailMessage {
         try {
             setSent(msg.getSentDate());
         } catch (MessagingException ex) {
-            throw new RuntimeException("Cannot get Sent Date", ex);
+            throw new MailParseException("Cannot get Sent Date", ex);
         }
     }
 
@@ -69,7 +69,7 @@ public class AliveMailMessage {
         try {
             subject = msg.getSubject();
         } catch (MessagingException ex) {
-            throw new RuntimeException("Cannot get Subject", ex);
+            throw new MailParseException("Cannot get Subject", ex);
         }
 
         // "[online] raspberry-server"
@@ -77,7 +77,7 @@ public class AliveMailMessage {
         if (matcher.matches()) {
             setSystem(matcher.group(2));
         } else {
-            throw new IllegalStateException("Cannot parse alive status");
+            throw new MailParseException("Cannot parse alive status");
         }
     }
 
@@ -86,7 +86,7 @@ public class AliveMailMessage {
         try {
             flags = msg.getFlags();
         } catch (MessagingException ex) {
-            throw new IllegalStateException("Cannot get message flags");
+            throw new MailParseException("Cannot get message flags", ex);
         }
 
         unread = !flags.contains(Flags.Flag.SEEN);

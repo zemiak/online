@@ -5,6 +5,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 public final class JsfMessages {
+    private JsfMessages() {
+    }
+
     public static boolean isValidationFailed() {
         return FacesContext.getCurrentInstance().isValidationFailed();
     }
@@ -19,7 +22,7 @@ public final class JsfMessages {
     }
 
     public static void addErrorMessages(List<String> messages) {
-        messages.stream().forEach((message) -> {
+        messages.stream().forEach(message -> {
             addErrorMessage(message);
         });
     }

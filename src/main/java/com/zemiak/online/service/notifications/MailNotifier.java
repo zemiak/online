@@ -1,6 +1,5 @@
 package com.zemiak.online.service.notifications;
 
-import com.sun.mail.util.MailConnectException;
 import com.zemiak.online.model.event.NewProtectedSystemEvent;
 import com.zemiak.online.model.event.OutageStartEvent;
 import com.zemiak.online.model.event.OutageStopEvent;
@@ -54,7 +53,7 @@ public class MailNotifier {
         }
     }
 
-    private void send(String mailSubject, String system) throws MessagingException, MailConnectException {
+    private void send(String mailSubject, String system) throws MessagingException {
         String subject = String.format(mailSubject, system);
 
         final Message message = new MimeMessage(mailSession);

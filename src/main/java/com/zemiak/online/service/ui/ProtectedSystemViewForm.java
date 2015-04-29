@@ -7,6 +7,7 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.Transient;
 
 @SessionScoped
 @Named("protectedSystemViewForm")
@@ -14,10 +15,10 @@ public class ProtectedSystemViewForm implements Serializable {
     private Long id;
     private ProtectedSystem bean;
 
-    @Inject
+    @Inject @Transient
     private ProtectedSystemService service;
 
-    @Inject
+    @Inject @Transient
     private OutageService outages;
 
     public ProtectedSystemViewForm() {

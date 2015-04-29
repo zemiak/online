@@ -11,18 +11,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class DataTablesAjaxData<T> implements Serializable {
     List<T> data;
 
+    public DataTablesAjaxData(List<T> data) {
+        this.data = data;
+    }
+
     public List<T> getData() {
         return data;
     }
 
     public void setData(List<T> data) {
-        this.data = data;
-    }
-
-    public DataTablesAjaxData() {
-    }
-
-    public DataTablesAjaxData(List<T> data) {
         this.data = data;
     }
 }

@@ -6,7 +6,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.mail.*;
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
@@ -30,20 +29,20 @@ public class AliveMailFolder {
         try {
             mailStore = session.getStore(store);
         } catch (NoSuchProviderException ex) {
-            throw new RuntimeException("Cannot get store " + store, ex);
+            throw new MailConnectException("Cannot get store " + store, ex);
         }
 
         try {
             mailStore.connect(host, account, password);
         } catch (MessagingException ex) {
-            throw new RuntimeException("Cannot connect to GMail", ex);
+            throw new MailConnectException("Cannot connect to GMail", ex);
         }
 
         try {
             mailFolder = mailStore.getFolder(folder);
             mailFolder.open(Folder.READ_ONLY);
         } catch (MessagingException ex) {
-            throw new RuntimeException("Cannot get folder " + folder, ex);
+            throw new MailConnectException("Cannot get folder " + folder, ex);
         }
     }
 
@@ -52,7 +51,7 @@ public class AliveMailFolder {
         try {
             mailFolder.close(true);
         } catch (MessagingException ex) {
-            throw new RuntimeException("Cannot close connection", ex);
+            throw new MailConnectException("Cannot close connection", ex);
         }
     }
 
@@ -60,7 +59,7 @@ public class AliveMailFolder {
         try {
             return mailFolder.getMessageCount();
         } catch (MessagingException ex) {
-            throw new RuntimeException("Cannot get folder size", ex);
+            throw new MailConnectException("Cannot get folder size", ex);
         }
     }
 
@@ -68,7 +67,7 @@ public class AliveMailFolder {
         try {
             return new AliveMailMessage(mailFolder.getMessage(i));
         } catch (MessagingException | RuntimeException ex) {
-            throw new RuntimeException("Cannot get message #" + i, ex);
+            throw new MailConnectException("Cannot get message #" + i, ex);
         }
     }
 
