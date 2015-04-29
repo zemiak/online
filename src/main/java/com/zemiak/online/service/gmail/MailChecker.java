@@ -52,8 +52,8 @@ public class MailChecker {
         for (int i = size; size - i < COUNT; i--) {
             try {
                 check(folder.get(i));
-            } catch (RuntimeException ex) {
-                LOG.log(Level.SEVERE, "Bad message {0}", i);
+            } catch (MailConnectException ex) {
+                LOG.log(Level.SEVERE, "Bad message {0}: {1}", new Object[]{i, ex});
             }
         }
 

@@ -21,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 @Stateless
 public class DailyNotifier {
     private static final Logger LOG = Logger.getLogger(DailyNotifier.class.getName());
+    private static final String LAST_SEEN = "Last seen: ";
 
     @Resource(name = "java:/online/mail/default")
     private Session mailSession;
@@ -75,14 +76,14 @@ public class DailyNotifier {
 
         if (system.isOutage()) {
             text += system.getName() + ": RUNNING OUTAGE\n";
-            text += "Last seen: " + dto.getLastSeen() + "\n\n";
+            text += LAST_SEEN + dto.getLastSeen() + "\n\n";
         } else if (wasOutageLastDay(system)) {
             text += system.getName() + ": Outage in the last 24 hours\n";
-            text += "Last seen: " + dto.getLastSeen() + "\n";
+            text += LAST_SEEN + dto.getLastSeen() + "\n";
             text += dumpLastDayOutages(system);
         } else {
             text += system.getName() + ": OK\n";
-            text += "Last seen: " + dto.getLastSeen() + "\n\n";
+            text += LAST_SEEN + dto.getLastSeen() + "\n\n";
         }
 
         return text;

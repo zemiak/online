@@ -22,9 +22,7 @@ public final class JsfMessages {
     }
 
     public static void addErrorMessages(List<String> messages) {
-        messages.stream().forEach(message -> {
-            addErrorMessage(message);
-        });
+        messages.stream().forEach(message -> addErrorMessage(message));
     }
 
     public static void addErrorMessage(String msg) {

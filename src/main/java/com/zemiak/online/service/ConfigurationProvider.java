@@ -20,10 +20,7 @@ public class ConfigurationProvider {
 
         for (String config: CONFIG_FILES) {
             ResourceBundle props = ResourceBundle.getBundle(config);
-
-            props.keySet().stream().forEach(key -> {
-                configuration.put(key, props.getString(key));
-            });
+            props.keySet().stream().forEach(key -> configuration.put(key, props.getString(key)));
         }
     }
 

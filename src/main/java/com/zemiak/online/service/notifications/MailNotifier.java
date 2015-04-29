@@ -19,6 +19,7 @@ import javax.mail.internet.MimeMessage;
 @Stateless
 public class MailNotifier {
     private static final Logger LOG = Logger.getLogger(MailNotifier.class.getName());
+    private static final String CANNOT_SEND_MAIL = "Cannot send mail: {0}";
 
     @Resource(name = "java:/online/mail/default")
     private Session mailSession;
@@ -33,7 +34,7 @@ public class MailNotifier {
         try {
             send(mailSubjectNew, event.getName());
         } catch (MessagingException ex) {
-            LOG.log(Level.SEVERE, "Cannot send mail: {0}", ex);
+            LOG.log(Level.SEVERE, CANNOT_SEND_MAIL, ex);
         }
     }
 
@@ -41,7 +42,7 @@ public class MailNotifier {
         try {
             send(mailSubjectStart, event.getProtectedSystem().getName());
         } catch (MessagingException ex) {
-            LOG.log(Level.SEVERE, "Cannot send mail: {0}", ex);
+            LOG.log(Level.SEVERE, CANNOT_SEND_MAIL, ex);
         }
     }
 
@@ -49,7 +50,7 @@ public class MailNotifier {
         try {
             send(mailSubjectStop, event.getOutage().getProtectedSystem().getName());
         } catch (MessagingException ex) {
-            LOG.log(Level.SEVERE, "Cannot send mail: {0}", ex);
+            LOG.log(Level.SEVERE, CANNOT_SEND_MAIL, ex);
         }
     }
 
