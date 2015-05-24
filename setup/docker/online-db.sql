@@ -2,29 +2,21 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.3.2
--- Dumped by pg_dump version 9.3.1
--- Started on 2015-03-27 20:04:39 CET
-
 SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
+SET client_encoding = 'SQL_ASCII';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- TOC entry 175 (class 3079 OID 12018)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2238 (class 0 OID 0)
--- Dependencies: 175
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: -
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -32,11 +24,12 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+SET default_tablespace = '';
+
 SET default_with_oids = false;
 
 --
--- TOC entry 171 (class 1259 OID 18162)
--- Name: credentials; Type: TABLE; Schema: public; Owner: -
+-- Name: credentials; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE credentials (
@@ -47,9 +40,38 @@ CREATE TABLE credentials (
 );
 
 
+ALTER TABLE public.credentials OWNER TO postgres;
+
 --
--- TOC entry 173 (class 1259 OID 18175)
--- Name: outage; Type: TABLE; Schema: public; Owner: -
+-- Name: entity_id_seq_outage; Type: SEQUENCE; Schema: public; Owner: online_user
+--
+
+CREATE SEQUENCE entity_id_seq_outage
+    START WITH 2000
+    INCREMENT BY 1
+    MINVALUE 2000
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.entity_id_seq_outage OWNER TO online_user;
+
+--
+-- Name: entity_id_seq_system; Type: SEQUENCE; Schema: public; Owner: online_user
+--
+
+CREATE SEQUENCE entity_id_seq_system
+    START WITH 1000
+    INCREMENT BY 1
+    MINVALUE 1000
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.entity_id_seq_system OWNER TO online_user;
+
+--
+-- Name: outage; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE outage (
@@ -60,9 +82,10 @@ CREATE TABLE outage (
 );
 
 
+ALTER TABLE public.outage OWNER TO postgres;
+
 --
--- TOC entry 172 (class 1259 OID 18170)
--- Name: protectedsystem; Type: TABLE; Schema: public; Owner: -
+-- Name: protectedsystem; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE protectedsystem (
@@ -74,9 +97,10 @@ CREATE TABLE protectedsystem (
 );
 
 
+ALTER TABLE public.protectedsystem OWNER TO postgres;
+
 --
--- TOC entry 170 (class 1259 OID 18154)
--- Name: roles; Type: TABLE; Schema: public; Owner: -
+-- Name: roles; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE roles (
@@ -85,9 +109,10 @@ CREATE TABLE roles (
 );
 
 
+ALTER TABLE public.roles OWNER TO postgres;
+
 --
--- TOC entry 174 (class 1259 OID 26139)
--- Name: sequence; Type: TABLE; Schema: public; Owner: -
+-- Name: sequence; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE sequence (
@@ -96,56 +121,62 @@ CREATE TABLE sequence (
 );
 
 
---
--- TOC entry 2228 (class 0 OID 18162)
--- Dependencies: 171
--- Data for Name: credentials; Type: TABLE DATA; Schema: public; Owner: -
---
-
-INSERT INTO credentials (id, created, name, password) VALUES (1, '2014-08-30 11:30:57.374241', 'vasko', 'Jif60Je1RfBu4r50d2ING/J9KS6R/4Wn5bEDJvxCinw=');
-
+ALTER TABLE public.sequence OWNER TO postgres;
 
 --
--- TOC entry 2230 (class 0 OID 18175)
--- Dependencies: 173
--- Data for Name: outage; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: credentials; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO credentials VALUES (1, '2014-08-30 11:30:57.374241', 'vasko', 'Jif60Je1RfBu4r50d2ING/J9KS6R/4Wn5bEDJvxCinw=');
 
 
 --
--- TOC entry 2229 (class 0 OID 18170)
--- Dependencies: 172
--- Data for Name: protectedsystem; Type: TABLE DATA; Schema: public; Owner: -
+-- Name: entity_id_seq_outage; Type: SEQUENCE SET; Schema: public; Owner: online_user
 --
 
-INSERT INTO protectedsystem (id, created, name, lastseen, disabled) VALUES (1, '2014-09-18 21:39:43.99', 'raspberry-server', '2014-09-18 21:39:43.99', true);
-INSERT INTO protectedsystem (id, created, name, lastseen, disabled) VALUES (2, '2014-09-18 21:39:44.305', 'lenovo-server', '2014-09-18 21:39:44.305', false);
-INSERT INTO protectedsystem (id, created, name, lastseen, disabled) VALUES (3, '2014-09-18 21:39:44.627', 'mac-server', '2014-09-18 21:39:44.627', true);
+SELECT pg_catalog.setval('entity_id_seq_outage', 2000, true);
 
 
 --
--- TOC entry 2227 (class 0 OID 18154)
--- Dependencies: 170
--- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: -
+-- Name: entity_id_seq_system; Type: SEQUENCE SET; Schema: public; Owner: online_user
 --
 
-INSERT INTO roles (role_name, user_name) VALUES ('USER', 'vasko');
-INSERT INTO roles (role_name, user_name) VALUES ('ADMINISTRATOR', 'vasko');
+SELECT pg_catalog.setval('entity_id_seq_system', 1000, false);
 
 
 --
--- TOC entry 2231 (class 0 OID 26139)
--- Dependencies: 174
--- Data for Name: sequence; Type: TABLE DATA; Schema: public; Owner: -
+-- Data for Name: outage; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO sequence (seq_name, seq_count) VALUES ('SEQ_GEN', 50);
+INSERT INTO outage VALUES (2000, '2015-05-16 06:40:08.367', '2015-05-10 23:00:07.689', 2);
 
 
 --
--- TOC entry 2108 (class 2606 OID 18169)
--- Name: credentials_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Data for Name: protectedsystem; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO protectedsystem VALUES (1, '2014-09-18 21:39:43.99', 'raspberry-server', '2014-09-18 21:39:43.99', true);
+INSERT INTO protectedsystem VALUES (3, '2014-09-18 21:39:44.627', 'mac-server', '2014-09-18 21:39:44.627', true);
+INSERT INTO protectedsystem VALUES (2, '2014-09-18 21:39:44.305', 'lenovo-server', '2015-05-24 18:10:01', false);
+
+
+--
+-- Data for Name: roles; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO roles VALUES ('USER', 'vasko');
+INSERT INTO roles VALUES ('ADMINISTRATOR', 'vasko');
+
+
+--
+-- Data for Name: sequence; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO sequence VALUES ('SEQ_GEN', 50);
+
+
+--
+-- Name: credentials_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY credentials
@@ -153,8 +184,7 @@ ALTER TABLE ONLY credentials
 
 
 --
--- TOC entry 2116 (class 2606 OID 18179)
--- Name: outage_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: outage_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY outage
@@ -162,8 +192,7 @@ ALTER TABLE ONLY outage
 
 
 --
--- TOC entry 2112 (class 2606 OID 18174)
--- Name: protectedsystem_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: protectedsystem_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY protectedsystem
@@ -171,8 +200,7 @@ ALTER TABLE ONLY protectedsystem
 
 
 --
--- TOC entry 2106 (class 2606 OID 18161)
--- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY roles
@@ -180,8 +208,7 @@ ALTER TABLE ONLY roles
 
 
 --
--- TOC entry 2118 (class 2606 OID 26143)
--- Name: sequence_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sequence_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY sequence
@@ -189,8 +216,7 @@ ALTER TABLE ONLY sequence
 
 
 --
--- TOC entry 2110 (class 2606 OID 18181)
--- Name: unq_credentials_0; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: unq_credentials_0; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY credentials
@@ -198,8 +224,7 @@ ALTER TABLE ONLY credentials
 
 
 --
--- TOC entry 2114 (class 2606 OID 18183)
--- Name: unq_protectedsystem_0; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: unq_protectedsystem_0; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
 ALTER TABLE ONLY protectedsystem
@@ -207,40 +232,24 @@ ALTER TABLE ONLY protectedsystem
 
 
 --
--- TOC entry 2119 (class 2606 OID 18184)
--- Name: fk_outage_system_id; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: fk_outage_system_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY outage
     ADD CONSTRAINT fk_outage_system_id FOREIGN KEY (system_id) REFERENCES protectedsystem(id);
 
 
--- Completed on 2015-03-27 20:04:39 CET
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
 
 --
 -- PostgreSQL database dump complete
 --
 
--- Sequence: data.entity_id_seq
-
--- DROP SEQUENCE data.entity_id_seq;
-
-CREATE SEQUENCE entity_id_seq_system
-  INCREMENT 1
-  MINVALUE 1000
-  MAXVALUE 9223372036854775807
-  START 1000
-  CACHE 1;
-
-CREATE SEQUENCE entity_id_seq_outage
-  INCREMENT 1
-  MINVALUE 2000
-  MAXVALUE 9223372036854775807
-  START 2000
-  CACHE 1;
-
-ALTER TABLE entity_id_seq_outage
-  OWNER TO online_user;
-
-ALTER TABLE entity_id_seq_system
-  OWNER TO online_user;

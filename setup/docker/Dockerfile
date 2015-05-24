@@ -49,7 +49,7 @@ ADD postgresql-backup.sh /usr/local/bin/
 RUN mkdir -p /mnt/backup
 
 # Wildfly Application Server and Online Application
-ENV ONLINE_VERSION 1_0_2
+ENV ONLINE_VERSION 1_0_3
 
 USER root
 ADD jdk.tar.gz /opt/
@@ -89,7 +89,6 @@ USER wildfly
 RUN mkdir -p /opt/wildfly/projects/
 WORKDIR /opt/wildfly/projects/
 RUN git clone https://github.com/zemiak/online.git
-RUN cd online && git checkout tags/$ONLINE_VERSION
 ADD online.war /tmp/
 
 WORKDIR /opt/wildfly
