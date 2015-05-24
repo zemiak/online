@@ -90,13 +90,13 @@ public class DailyNotifier {
     }
 
     private boolean wasOutageLastDay(ProtectedSystem system) {
-        return !outages.findLastDayByEnd(system.getId()).isEmpty();
+        return !outages.findEndedLastDay(system.getId()).isEmpty();
     }
 
     private String dumpLastDayOutages(ProtectedSystem system) {
         final StringBuilder sb = new StringBuilder("Outages:\n");
 
-        outages.findLastDayByEnd(system.getId()).stream()
+        outages.findEndedLastDay(system.getId()).stream()
                 .map(OutageDTO::new)
                 .forEach(o -> sb.append("Start: ").append(o.getStart())
                             .append(", end: ").append(o.getEnd())
