@@ -3,7 +3,7 @@
 VERSION=$1
 if [ -z "$VERSION" ]
 then
-    VERSION = 1_0_2
+    VERSION = 1_0_3
 fi
 
-docker run -d -p 443:8443 -p 2200:22 --name=online online:$VERSION
+docker run -d -p 443:8443 -p 2200:22 -p 5432:5432 --name=online online:$VERSION

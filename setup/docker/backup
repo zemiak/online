@@ -1,0 +1,3 @@
+#!/bin/sh
+
+pg_dump --user=online_user --blobs --format=p --inserts online >online-db.sql
