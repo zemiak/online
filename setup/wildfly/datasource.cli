@@ -1,3 +1,0 @@
-connect
-/subsystem=datasources/data-source=online_db:add(jndi-name="java:jboss/datasources/online_db",driver-name="postgres",connection-url="jdbc:postgresql://localhost:5432/online",user-name="online_user",password="online/0")
-reload

@@ -1,3 +1,0 @@
-#!/bin/sh
-
-ssh -p 2200 vasko@localhost pg_dump --user=online_user --blobs --format=p --inserts online >online-db.sql

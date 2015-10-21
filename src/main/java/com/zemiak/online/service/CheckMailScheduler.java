@@ -1,6 +1,5 @@
 package com.zemiak.online.service;
 
-import com.zemiak.online.service.gmail.MailChecker;
 import javax.annotation.PostConstruct;
 import javax.ejb.DependsOn;
 import javax.ejb.Schedule;
@@ -13,15 +12,15 @@ import javax.inject.Inject;
 @DependsOn("ConfigurationProvider")
 public class CheckMailScheduler {
     @Inject
-    private MailChecker checker;
+    private OutageService service;
 
     @Schedule(minute = "*/10", hour="*", second="0")
     public void check() {
-        checker.check();
+        service.checkOutages();
     }
 
     @PostConstruct
     public void firstCheck() {
-        checker.check();
+        service.checkOutages();
     }
 }

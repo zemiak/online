@@ -25,8 +25,7 @@ public class ProtectedSystem implements Serializable {
     public static final int OUTAGE_MINUTES = 30;
 
     @Id
-    @SequenceGenerator(name="pk_sequence", sequenceName="entity_id_seq_system", allocationSize=1, initialValue = 1000)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pk_sequence")
+    @GeneratedValue
     @Basic(optional = false)
     private Long id;
 
@@ -132,7 +131,7 @@ public class ProtectedSystem implements Serializable {
         if (null == getLastSeen()) {
             return true;
         }
-        
+
         long diff = (new Date().getTime()) - getLastSeen().getTime();
         return TimeUnit.MILLISECONDS.toMinutes(diff) > OUTAGE_MINUTES;
     }

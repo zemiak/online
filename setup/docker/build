@@ -1,9 +1,0 @@
-#!/bin/sh
-
-VERSION=$1
-if [ -z "$VERSION" ]
-then
-  VERSION=1_0_3
-fi
-
-docker build --tag=online:$VERSION .

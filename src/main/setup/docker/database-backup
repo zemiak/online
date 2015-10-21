@@ -2,4 +2,4 @@ SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 MAILTO=zemiak@gmail.com
 
-45 2 * * sun,thu root bash /usr/local/bin/postgresql-backup.sh
+45 2 * * sun,thu root bash /usr/local/bin/database-backup.sh
